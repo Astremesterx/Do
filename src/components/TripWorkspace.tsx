@@ -162,6 +162,15 @@ export function TripWorkspace({
             )}
           </Dropdown>
           <button
+            className="secondary-button plan-another-trip-header-btn"
+            aria-label="Plan another trip"
+            title="Plan another trip"
+            onClick={onCreate}
+          >
+            <Plus size={15} />
+            <span>Plan another trip</span>
+          </button>
+          <button
             className="secondary-button delete-trip-action-btn"
             aria-label="Delete this trip"
             title="Delete this trip"
@@ -212,14 +221,23 @@ export function TripWorkspace({
           stops={stops}
           onSelect={onSelect}
         />
-        <div className="route-summary glass trip-map-overlay">
+        <div className="route-summary trip-map-overlay">
           <Route size={20} />
-          <div>
+          <div className="route-summary-text">
             <strong>Day {activeDay} Route · {stops.length} connected moments</strong>
             <span>
               {totalKm.toFixed(1)} km · ~{totalTime} min transit · {getCity(plan.destinationCity).name} ({getCity(plan.destinationCity).timezone})
             </span>
           </div>
+          <button
+            type="button"
+            className="route-summary-plan-btn"
+            onClick={onCreate}
+            title="Plan another trip"
+          >
+            <Plus size={14} />
+            <span>Plan another trip</span>
+          </button>
         </div>
       </section>
 

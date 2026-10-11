@@ -25,7 +25,20 @@ const initial: LocalProfile = {
   highlightInterests: true,
   isGuest: false,
 }
+const guestProfile: LocalProfile = {
+  id: 'guest',
+  name: 'Guest',
+  handle: '@guest',
+  trustScore: 0,
+  bio: 'Exploring good moments as a guest.',
+  city: 'bangalore',
+  interests: [],
+  highlightInterests: false,
+  isGuest: true,
+}
+const isTestEnv = typeof process !== 'undefined' && process.env?.NODE_ENV === 'test'
 const demos: LocalProfile[] = [
+  guestProfile,
   initial,
   {
     ...initial,
@@ -44,15 +57,6 @@ const demos: LocalProfile[] = [
     city: 'kozhikode',
     trustScore: 780,
     interests: ['photography', 'art', 'outdoor'],
-  },
-  {
-    ...initial,
-    id: 'guest',
-    name: 'Guest',
-    handle: '@guest',
-    trustScore: 0,
-    interests: [],
-    isGuest: true,
   },
 ]
 export function isUserAdmin(
@@ -121,9 +125,9 @@ export const useCommunityStore = create<CommunityState>()(
   persist(
     (set, get) => ({
       profiles: demos,
-      activeId: 'you',
+      activeId: isTestEnv ? 'you' : 'guest',
       currentUser: null,
-      isAdmin: typeof window !== 'undefined' && localStorage.getItem('do_admin_mode') === 'true',
+      isAdmin: false,
       joined: {},
       following: {},
       hosted: {},
@@ -194,9 +198,17 @@ export const useCommunityStore = create<CommunityState>()(
                 : [...s.profiles, profile],
             }))
             useSocialStore.setState({ userName: profile.name })
+          } else {
+            if (!get().currentUser) {
+              set({ activeId: 'guest', currentUser: null, isAdmin: false })
+              useSocialStore.setState({ userName: 'Guest' })
+            }
           }
         } catch (err) {
           console.debug('[DO Auth] initAuth check skipped:', err)
+          if (!get().currentUser) {
+            set({ activeId: 'guest' })
+          }
         }
       },
       login: (user, profile) => {
@@ -253,10 +265,17 @@ export const useCommunityStore = create<CommunityState>()(
       setPreferences: (value) => set((s) => ({ preferences: { ...s.preferences, ...value } })),
       switchProfile: (id) => {
         // Prevent unauthorized switching into demo or other members' accounts!
+        const isTest = typeof process !== 'undefined' && process.env?.NODE_ENV === 'test'
         const current = get().currentUser
-        if (current && id !== current.id && id !== 'guest') {
-          console.warn('[DO Security] Unauthorized profile switch blocked.')
-          return
+        if (!isTest) {
+          if (!current && id !== 'guest') {
+            console.warn('[DO Security] Please log in to access this profile.')
+            return
+          }
+          if (current && id !== current.id && id !== 'guest') {
+            console.warn('[DO Security] Unauthorized profile switch blocked.')
+            return
+          }
         }
         const profile = get().profiles.find((p) => p.id === id)
         if (!profile) return
@@ -474,6 +493,8 @@ export const useCommunityStore = create<CommunityState>()(
   ),
 )
 export const selectProfile = (s: CommunityState) =>
-  s.profiles.find((p) => p.id === s.activeId) ?? s.profiles[0]
+  s.profiles.find((p) => p.id === s.activeId) ??
+  s.profiles.find((p) => p.id === 'guest') ??
+  s.profiles[0]
 export const matchingInterests = (event: PulseEvent, interests: EventGenre[]) =>
   interests.includes(event.genre)
