@@ -1,3 +1,5 @@
+import type { PulseEvent } from '../domain'
+
 /**
  * Event URL utilities for DO.
  *
@@ -212,35 +214,100 @@ export interface PlatformDisplayInfo {
 }
 
 /**
+ * Determines whether an event requires advance registration / ticketing.
+ */
+export function eventRequiresRegistration(event?: Partial<PulseEvent> | null): boolean {
+  if (!event) return true
+  if (typeof event.requiresRegistration === 'boolean') {
+    return event.requiresRegistration
+  }
+  if (event.registrationStatus === 'waitlist' || event.registrationStatus === 'closed') {
+    return true
+  }
+  if (event.isOnline) {
+    return true
+  }
+  if (event.priceTier === 'paid' || event.priceTier === 'invite') {
+    return true
+  }
+  if (
+    Boolean(event.privateVenue) ||
+    Boolean(event.minTrustScore && event.minTrustScore > 0) ||
+    Boolean(event.maxGuests && event.maxGuests > 0 && event.maxGuests <= 100)
+  ) {
+    return true
+  }
+  if (event.genre && ['tech', 'business', 'gaming'].includes(event.genre)) {
+    return true
+  }
+  return false
+}
+
+/**
  * Derives user-facing button labels and verification badges
- * based on the event's source platform and destination URL.
+ * based on the event's source platform, pricing, and registration requirements.
+ *
+ * NOTE: Button labels never mention third-party platform branding like 'Luma'.
+ * Events only show 'Register' when registration is genuinely required;
+ * paid events display 'Get tickets', live sessions show 'Join live',
+ * and open/free gatherings show 'View event'.
  */
 export function getPlatformDisplayInfo(
-  platform?: string,
-  url?: string,
+  platformOrEvent?: string | Partial<PulseEvent>,
+  urlOrLive?: string | boolean,
   isOnline = false,
   isLive = false,
+  requiresRegistration?: boolean,
+  priceTier?: string,
 ): PlatformDisplayInfo {
+  let platform = ''
+  let url = ''
+  let online = isOnline
+  let live = isLive
+  let reqReg = requiresRegistration ?? true
+  let tier = priceTier
+
+  if (typeof platformOrEvent === 'object' && platformOrEvent !== null) {
+    const event = platformOrEvent
+    platform = event.sourcePlatform || ''
+    url = event.registrationUrl || ''
+    online = Boolean(event.isOnline)
+    live = typeof urlOrLive === 'boolean' ? urlOrLive : isLive
+    reqReg = eventRequiresRegistration(event)
+    tier = event.priceTier
+  } else {
+    platform = platformOrEvent || ''
+    url = typeof urlOrLive === 'string' ? urlOrLive : ''
+    online = isOnline
+    live = isLive
+    reqReg = requiresRegistration !== undefined ? requiresRegistration : true
+  }
+
   const normPlatform = (platform || '').toLowerCase().trim()
   const rawUrl = (url || '').toLowerCase()
+
+  const getActionText = (defaultAction: string) => {
+    if (online && live) return 'Join live'
+    if (tier === 'paid') return 'Get tickets'
+    if (tier === 'invite') return 'Request invite'
+    if (reqReg) return 'Register'
+    return url ? 'View event' : defaultAction
+  }
 
   if (normPlatform.includes('eventbrite') || rawUrl.includes('eventbrite.')) {
     return {
       name: 'Eventbrite',
-      actionText: 'Get tickets on Eventbrite',
+      actionText: tier === 'paid' || rawUrl.includes('-tickets') ? 'Get tickets' : reqReg ? 'Register' : 'View event',
       badgeText: 'Verified on Eventbrite',
       isOfficial: true,
     }
   }
 
+  // Luma events: Never mention Luma in the button actionText!
   if (normPlatform.includes('luma') || normPlatform.includes('lu.ma') || rawUrl.includes('lu.ma')) {
     return {
       name: 'Luma',
-      actionText: isOnline
-        ? isLive
-          ? 'Join live on Luma'
-          : 'Register on Luma'
-        : 'Register on Luma',
+      actionText: getActionText('View event'),
       badgeText: 'Verified on Luma',
       isOfficial: true,
     }
@@ -249,7 +316,7 @@ export function getPlatformDisplayInfo(
   if (normPlatform.includes('meetup') || rawUrl.includes('meetup.com')) {
     return {
       name: 'Meetup',
-      actionText: 'RSVP on Meetup',
+      actionText: tier === 'paid' ? 'Get tickets' : reqReg ? 'RSVP' : 'View event',
       badgeText: 'Verified on Meetup',
       isOfficial: true,
     }
@@ -258,7 +325,7 @@ export function getPlatformDisplayInfo(
   if (normPlatform.includes('devpost') || rawUrl.includes('devpost.com')) {
     return {
       name: 'Devpost',
-      actionText: 'View on Devpost',
+      actionText: reqReg ? 'Register' : 'View on Devpost',
       badgeText: 'Verified on Devpost',
       isOfficial: true,
     }
@@ -271,7 +338,7 @@ export function getPlatformDisplayInfo(
   ) {
     return {
       name: 'Google Developer Groups',
-      actionText: 'RSVP on Google GDG',
+      actionText: online && live ? 'Join live' : reqReg ? 'RSVP' : 'View event',
       badgeText: 'Official GDG Event',
       isOfficial: true,
     }
@@ -280,7 +347,7 @@ export function getPlatformDisplayInfo(
   if (normPlatform.includes('local venue') || normPlatform.includes('venues')) {
     return {
       name: 'Local Venue',
-      actionText: 'View tickets & venue page',
+      actionText: tier === 'paid' ? 'Get tickets' : reqReg ? 'Register' : 'View venue page',
       badgeText: 'Venue Partner Verified',
       isOfficial: true,
     }
@@ -288,13 +355,7 @@ export function getPlatformDisplayInfo(
 
   return {
     name: platform && platform !== 'Community' ? platform : 'Official Source',
-    actionText: isOnline
-      ? isLive
-        ? 'Join live session'
-        : 'Register for session'
-      : url
-        ? 'View official event page'
-        : 'Join meetup',
+    actionText: getActionText('Join meetup'),
     badgeText: 'Official Event Page',
     isOfficial: true,
   }

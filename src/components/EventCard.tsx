@@ -124,9 +124,9 @@ export const EventCard = memo(function EventCard({
                 href={event.registrationUrl}
                 target="_blank"
                 rel="noreferrer"
-                title={`Open official direct event page on ${getPlatformDisplayInfo(event.sourcePlatform, event.registrationUrl, true, live).name}`}
+                title={`Open official direct event page on ${getPlatformDisplayInfo(event, live).name}`}
               >
-                {getPlatformDisplayInfo(event.sourcePlatform, event.registrationUrl, true, live).actionText}
+                {getPlatformDisplayInfo(event, live).actionText}
                 <ArrowUpRight size={13} />
               </a>
             ) : (

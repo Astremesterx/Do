@@ -157,28 +157,61 @@ describe('Event URL & Canonical Deep Link System', () => {
         'https://www.eventbrite.com/e/something-tickets-123',
       )
       expect(info.name).toBe('Eventbrite')
-      expect(info.actionText).toBe('Get tickets on Eventbrite')
+      expect(info.actionText).toBe('Get tickets')
       expect(info.badgeText).toBe('Verified on Eventbrite')
       expect(info.isOfficial).toBe(true)
     })
 
-    it('returns dedicated action text and badge for Luma', () => {
+    it('returns Register without mentioning Luma', () => {
       const info = getPlatformDisplayInfo('Luma', 'https://lu.ma/something')
       expect(info.name).toBe('Luma')
-      expect(info.actionText).toBe('Register on Luma')
+      expect(info.actionText).toBe('Register')
       expect(info.badgeText).toBe('Verified on Luma')
+    })
+
+    it('returns View event when registration is not required', () => {
+      const info = getPlatformDisplayInfo('Luma', 'https://lu.ma/something', false, false, false)
+      expect(info.actionText).toBe('View event')
     })
 
     it('returns live action text for live online sessions', () => {
       const info = getPlatformDisplayInfo('Luma', 'https://lu.ma/something', true, true)
-      expect(info.actionText).toBe('Join live on Luma')
+      expect(info.actionText).toBe('Join live')
     })
 
     it('returns dedicated action text and badge for Meetup', () => {
       const info = getPlatformDisplayInfo('Meetup', 'https://www.meetup.com/group/events/123/')
       expect(info.name).toBe('Meetup')
-      expect(info.actionText).toBe('RSVP on Meetup')
+      expect(info.actionText).toBe('RSVP')
       expect(info.badgeText).toBe('Verified on Meetup')
+    })
+
+    it('returns Register or Get tickets based on event object properties', () => {
+      const paid = getPlatformDisplayInfo({
+        sourcePlatform: 'Luma',
+        registrationUrl: 'https://lu.ma/test',
+        priceTier: 'paid',
+        priceAmount: 20,
+      })
+      expect(paid.actionText).toBe('Get tickets')
+
+      const openWalk = getPlatformDisplayInfo({
+        sourcePlatform: 'Luma',
+        registrationUrl: 'https://lu.ma/test',
+        priceTier: 'free',
+        genre: 'outdoor',
+        requiresRegistration: false,
+      })
+      expect(openWalk.actionText).toBe('View event')
+
+      const techWorkshop = getPlatformDisplayInfo({
+        sourcePlatform: 'Luma',
+        registrationUrl: 'https://lu.ma/test',
+        priceTier: 'free',
+        genre: 'tech',
+        requiresRegistration: true,
+      })
+      expect(techWorkshop.actionText).toBe('Register')
     })
   })
 

@@ -221,6 +221,7 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
           }
         }
         const free = (i + day) % 3 === 0 || genre === 'outdoor'
+        const requiresRegistration = !free || genre === 'tech' || genre === 'business' || genre === 'gaming' || i === 4
         const basePrice = [18, 10, 12, 22, 25, 0, 15, 8][i]
         const rate = city.currency === 'INR' ? 80 : city.currency === 'JPY' ? 150 : 1
         const venue =
@@ -279,7 +280,8 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
           rating: Math.round((4.4 + ((day + i) % 6) / 10) * 10) / 10,
           provenance: 'demo',
           locationPrecision: 'district',
-          registrationStatus: 'open',
+          requiresRegistration,
+          registrationStatus: requiresRegistration ? 'open' : undefined,
           host: {
             id: `host-${city.id}-${i % 4}`,
             name: `${city.name} ${['Neighbors', 'Makers', 'Creative Club', 'Gatherings'][i % 4]}`,
@@ -323,6 +325,7 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
             attendeesCount: 24 + day * 3,
             priceTier: 'free',
             priceAmount: 0,
+            requiresRegistration: false,
             sourcePlatform: altPlatform,
             registrationUrl: altUrl,
           })
@@ -375,6 +378,7 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
         rating: 4.8,
         provenance: 'demo',
         locationPrecision: 'online',
+        requiresRegistration: true,
         registrationStatus: 'open',
       })
     }

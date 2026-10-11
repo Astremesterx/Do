@@ -2,7 +2,7 @@
 
 > **DO** is a modern, high-performance, decentralized local event discovery, community engagement, and AI-inspired trip & itinerary planning platform. Built with **React 19**, **TypeScript**, **Vite**, **Leaflet**, **Zustand**, and **Supabase**.
 
-[![Tests](https://img.shields.io/badge/Vitest-106%20passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Vitest-112%20passed-brightgreen.svg)]()
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)]()
 [![React](https://img.shields.io/badge/React-19-61dafb.svg)]()
 [![Vite](https://img.shields.io/badge/Vite-7-646cff.svg)]()
@@ -409,7 +409,7 @@ pulse-horizon/
    # Run ESLint across the codebase
    npm run lint
 
-   # Execute the entire Vitest test suite (106 tests)
+   # Execute the entire Vitest test suite (112 tests)
    npm test
 
    # Run one-off public event collector (GDG & Devpost)

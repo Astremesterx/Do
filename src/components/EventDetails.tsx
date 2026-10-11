@@ -50,12 +50,7 @@ export function EventDetails({
   const host = hostOf(event),
     ended = !!event.concluded || +new Date(event.endTime) <= now
   const live = isLive(event, now)
-  const platformInfo = getPlatformDisplayInfo(
-    event.sourcePlatform,
-    event.registrationUrl,
-    event.isOnline,
-    live,
-  )
+  const platformInfo = getPlatformDisplayInfo(event, live)
   const isHost =
     !profile.isGuest &&
     Boolean((event.host?.id && event.host.id === profile.id) || host.id === profile.id)
@@ -517,7 +512,7 @@ export function EventDetails({
           href={event.registrationUrl || undefined}
           target="_blank"
           rel="noreferrer"
-          title={`Official direct link: opens event registration on ${platformInfo.name}`}
+          title={`Official direct link: ${platformInfo.actionText} on ${platformInfo.name}`}
           onClick={
             event.registrationUrl
               ? undefined
