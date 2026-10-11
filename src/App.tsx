@@ -269,15 +269,10 @@ export default function App() {
         /* Collection is optional; local seeds remain available. */
       })
 
-    // Cloud Database: background sync with Supabase project DO
+    // Cloud Database: background sync with Supabase project DO (silent in background)
     void useEventsStore
       .getState()
       .syncWithSupabase()
-      .then((res) => {
-        if (res.ok && res.count > 0) {
-          notify(`Synchronized ${res.count} cloud events from Supabase`)
-        }
-      })
       .catch(() => {})
     void useTripStore.getState().syncWithSupabase().catch(() => {})
     void useSocialStore.getState().syncBeacons().catch(() => {})

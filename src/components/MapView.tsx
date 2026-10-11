@@ -480,7 +480,8 @@ export const MapView = memo(function MapView({
   isVisible,
 }: MapViewProps) {
   const [legend, setLegend] = useState(false),
-    [tileError, setTileError] = useState(false)
+    [tileError, setTileError] = useState(false),
+    [storyDismissed, setStoryDismissed] = useState(false)
   const theme = useCommunityStore((s) => s.theme),
     preferences = useCommunityStore((s) => s.preferences)
   const [style, setStyle] = useState<'auto' | 'streets' | 'dark' | 'satellite'>('auto'),
@@ -681,7 +682,7 @@ export const MapView = memo(function MapView({
         <>
           <div className="map-city-card glass">
             <span className="map-city-symbol">
-              <Radio size={18} />
+              <Radio size={15} />
             </span>
             <div>
               <strong>{scopeTitle}</strong>
@@ -733,8 +734,17 @@ export const MapView = memo(function MapView({
               </div>
             </div>
           )}
-          {!stops && !dropped && (
+          {!stops && !dropped && !storyDismissed && (
             <div className="map-story glass">
+              <button
+                type="button"
+                className="map-story-close"
+                aria-label="Dismiss message"
+                title="Dismiss message"
+                onClick={() => setStoryDismissed(true)}
+              >
+                <X size={12} />
+              </button>
               <span className="eyebrow">
                 <span className="tiny-star">✳</span> GOOD PLANS START HERE
               </span>
@@ -745,7 +755,7 @@ export const MapView = memo(function MapView({
               </h3>
               <p>Your next favorite memory is closer than you think.</p>
               <button onClick={onPlan}>
-                Make a little adventure <ArrowUpRight size={17} />
+                Make a little adventure <ArrowUpRight size={13} />
               </button>
             </div>
           )}
