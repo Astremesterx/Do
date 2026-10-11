@@ -35,10 +35,12 @@ export function TripWorkspace({
   onCreate,
   onSelect,
   notify,
+  onBack,
 }: {
   onCreate: () => void
   onSelect: (e: PulseEvent) => void
   notify: (message: string) => void
+  onBack?: () => void
 }) {
   const plans = useTripStore((s) => s.plans),
     activeId = useTripStore((s) => s.activeId),
@@ -51,7 +53,8 @@ export function TripWorkspace({
     [swap, setSwap] = useState<ItineraryStop | null>(null),
     [custom, setCustom] = useState(false),
     [share, setShare] = useState(false),
-    [confirmDelete, setConfirmDelete] = useState(false)
+    [confirmDelete, setConfirmDelete] = useState(false),
+    [mobileTab, setMobileTab] = useState<'stops' | 'map'>('stops')
   const activeDay = plan ? Math.min(day, dayCount(plan.startDate, plan.endDate)) : 1
   const stops = useMemo(
     () => plan?.stops.filter((s) => s.dayNumber === activeDay) ?? [],
@@ -78,9 +81,17 @@ export function TripWorkspace({
           <br />
           We’ll find the events and connect the dots.
         </p>
-        <button className="primary-button" onClick={onCreate}>
-          Plan my first trip <ArrowUpRight size={18} />
-        </button>
+        <div className="trips-empty-actions">
+          <button className="primary-button" onClick={onCreate}>
+            Plan my first trip <ArrowUpRight size={18} />
+          </button>
+          {onBack && (
+            <button className="secondary-button trip-back-btn" onClick={onBack}>
+              <ArrowLeft size={16} />
+              <span>Back to explore</span>
+            </button>
+          )}
+        </div>
         <div className="trips-benefits">
           <span>
             <MapPin size={17} />
@@ -101,22 +112,36 @@ export function TripWorkspace({
   return (
     <div className="trip-workspace">
       <header className="trip-header">
-        <div>
-          <span className="eyebrow">
-            <Sparkles size={13} /> YOUR NEXT CHAPTER
-          </span>
-          <div className="trip-title-row">
-            <h1>
-              {getCity(plan.destinationCity).name}, <span>your way.</span>
-            </h1>
+        <div className="trip-header-left">
+          {onBack && (
+            <button
+              type="button"
+              className="secondary-button trip-back-btn"
+              onClick={onBack}
+              aria-label="Back to explore"
+              title="Back to explore"
+            >
+              <ArrowLeft size={16} />
+              <span>Back</span>
+            </button>
+          )}
+          <div className="trip-header-meta">
+            <span className="eyebrow">
+              <Sparkles size={13} /> YOUR NEXT CHAPTER
+            </span>
+            <div className="trip-title-row">
+              <h1>
+                {getCity(plan.destinationCity).name}, <span>your way.</span>
+              </h1>
+            </div>
+            <p>
+              {format(new Date(`${plan.startDate}T12:00`), 'MMM d')} –{' '}
+              {format(new Date(`${plan.endDate}T12:00`), 'MMM d, yyyy')}
+              <span>·</span>
+              {dayCount(plan.startDate, plan.endDate)} days<span>·</span>
+              {plan.pace} pace
+            </p>
           </div>
-          <p>
-            {format(new Date(`${plan.startDate}T12:00`), 'MMM d')} –{' '}
-            {format(new Date(`${plan.endDate}T12:00`), 'MMM d, yyyy')}
-            <span>·</span>
-            {dayCount(plan.startDate, plan.endDate)} days<span>·</span>
-            {plan.pace} pace
-          </p>
         </div>
         <div className="trip-header-actions">
           <Dropdown
@@ -213,35 +238,31 @@ export function TripWorkspace({
         ))}
       </div>
 
-      {/* Enhanced Hero Map at Top */}
-      <section className="trip-map trip-map-hero">
-        <MapView
-          city={plan.destinationCity}
-          events={stops.map((s) => s.event)}
-          stops={stops}
-          onSelect={onSelect}
-        />
-        <div className="route-summary trip-map-overlay">
-          <Route size={20} />
-          <div className="route-summary-text">
-            <strong>Day {activeDay} Route · {stops.length} connected moments</strong>
-            <span>
-              {totalKm.toFixed(1)} km · ~{totalTime} min transit · {getCity(plan.destinationCity).name} ({getCity(plan.destinationCity).timezone})
-            </span>
-          </div>
-          <button
-            type="button"
-            className="route-summary-plan-btn"
-            onClick={onCreate}
-            title="Plan another trip"
-          >
-            <Plus size={14} />
-            <span>Plan another trip</span>
-          </button>
-        </div>
-      </section>
+      {/* Mobile view switcher tabs (only visible on small screens <= 768px) */}
+      <div className="trip-mobile-nav" role="tablist" aria-label="Trip views">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={mobileTab === 'stops'}
+          className={`trip-mobile-tab ${mobileTab === 'stops' ? 'active' : ''}`}
+          onClick={() => setMobileTab('stops')}
+        >
+          <CalendarDays size={15} />
+          <span>Itinerary ({stops.length})</span>
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={mobileTab === 'map'}
+          className={`trip-mobile-tab ${mobileTab === 'map' ? 'active' : ''}`}
+          onClick={() => setMobileTab('map')}
+        >
+          <Route size={15} />
+          <span>Day {activeDay} Map</span>
+        </button>
+      </div>
 
-      <div className="trip-body">
+      <div className={`trip-body mobile-show-${mobileTab}`}>
         <section className="trip-stops-panel">
           <header className="day-overview">
             <div>
@@ -257,13 +278,26 @@ export function TripWorkspace({
                 {totalTime} min in transit
               </p>
             </div>
-            <button
-              className="icon-button"
-              onClick={() => setCustom(true)}
-              aria-label="Add a custom stop"
-            >
-              <Plus size={20} />
-            </button>
+            <div className="day-overview-actions">
+              <button
+                type="button"
+                className="secondary-button mobile-view-map-btn"
+                onClick={() => setMobileTab('map')}
+                aria-label="View route map"
+                title="View route map"
+              >
+                <Route size={14} />
+                <span>View map</span>
+              </button>
+              <button
+                className="icon-button"
+                onClick={() => setCustom(true)}
+                aria-label="Add a custom stop"
+                title="Add a custom stop"
+              >
+                <Plus size={20} />
+              </button>
+            </div>
           </header>
           <div className="trip-stops-scroll">
             {stops.length ? (
@@ -381,13 +415,32 @@ export function TripWorkspace({
           </footer>
         </section>
 
-        <footer className="trip-bottom-cta">
-          <button className="primary-button plan-another-trip-btn" onClick={onCreate}>
-            <Route size={16} />
-            <span>Plan another trip</span>
-            <ArrowUpRight size={16} />
-          </button>
-        </footer>
+        <section className="trip-map">
+          <MapView
+            city={plan.destinationCity}
+            events={stops.map((s) => s.event)}
+            stops={stops}
+            onSelect={onSelect}
+          />
+          <div className="route-summary trip-map-overlay">
+            <Route size={20} />
+            <div className="route-summary-text">
+              <strong>Day {activeDay} Route · {stops.length} connected moments</strong>
+              <span>
+                {totalKm.toFixed(1)} km · ~{totalTime} min transit · {getCity(plan.destinationCity).name} ({getCity(plan.destinationCity).timezone})
+              </span>
+            </div>
+            <button
+              type="button"
+              className="route-summary-plan-btn"
+              onClick={onCreate}
+              title="Plan another trip"
+            >
+              <Plus size={14} />
+              <span>Plan another trip</span>
+            </button>
+          </div>
+        </section>
       </div>
       {swap && (
         <Modal

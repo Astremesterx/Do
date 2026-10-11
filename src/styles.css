@@ -3315,6 +3315,14 @@ textarea {
 .trips-empty > .primary-button {
   margin-top: 24px;
 }
+.trips-empty-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
 .trips-benefits {
   display: flex;
   align-items: center;
@@ -3334,18 +3342,48 @@ textarea {
   flex-direction: column;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  height: 100%;
+  overflow: hidden;
 }
 .trip-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 15px;
-  padding: 21px 30px;
-  min-height: 104px;
+  gap: 16px;
+  padding: 16px 28px;
+  min-height: 80px;
   border-bottom: 1px solid var(--line);
   background: linear-gradient(100deg, rgb(var(--rgb-eeeeee) / 0.376), transparent);
+  flex-shrink: 0;
+  z-index: 20;
+}
+.trip-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+.trip-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  min-height: 36px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+.trip-back-btn:hover {
+  transform: translateX(-2px);
+}
+.trip-header-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 .trip-header .eyebrow {
   font-size: 7px;
@@ -3376,18 +3414,28 @@ textarea {
 .trip-header-actions {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 .trip-header-actions .primary-button,
 .trip-header-actions .secondary-button {
-  font-size: 10px;
-  min-height: 34px;
-  padding: 0 11px;
+  font-size: 11px;
+  min-height: 36px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
 }
 .trip-header-actions .dropdown-trigger {
-  font-size: 9px;
-  min-height: 34px;
-  padding: 0 10px;
+  font-size: 11px;
+  min-height: 36px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
 }
 .delete-trip-action-btn {
   color: var(--tone-5a5a5a);
@@ -3395,17 +3443,19 @@ textarea {
 }
 .delete-trip-action-btn:hover {
   color: #ef4444;
-  border-color: rgba(239, 68, 68, 0.35);
+  border-color: rgba(239, 68, 68, 0.4);
   background: rgba(239, 68, 68, 0.08);
 }
 .day-tabs {
   display: flex;
   overflow-x: auto;
   border-bottom: 1px solid var(--line);
-  min-height: 79px;
+  min-height: 68px;
   scrollbar-width: thin;
-  padding-left: 16px;
+  padding-left: 20px;
   background: var(--tone-f3f3f3);
+  flex-shrink: 0;
+  z-index: 15;
 }
 .day-tabs > button {
   padding: 14px 21px 12px;
@@ -3449,26 +3499,66 @@ textarea {
   height: 2px;
   background: var(--mint);
 }
-.trip-body {
+.trip-mobile-nav {
+  display: none;
+  border-bottom: 1px solid var(--line);
+  background: var(--tone-f8f8f8);
+  padding: 8px 16px;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.trip-mobile-tab {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface, #fff);
+  color: var(--tone-5c5c5c);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.trip-mobile-tab.active {
+  background: var(--tone-242424);
+  color: #fff;
+  border-color: var(--tone-242424);
+}
+[data-theme='dark'] .trip-mobile-tab.active {
+  background: var(--mint);
+  color: #121212;
+  border-color: var(--mint);
+}
+.mobile-view-map-btn {
+  display: none;
+}
+.day-overview-actions {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.trip-body {
+  display: grid;
+  grid-template-columns: minmax(380px, 450px) minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
   width: 100%;
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 24px 20px 48px;
-  gap: 24px;
-  flex: none;
+  height: 100%;
+  overflow: hidden;
 }
 .trip-stops-panel {
   min-height: 0;
   min-width: 0;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--line);
-  border-radius: 14px;
+  border-right: 1px solid var(--line);
   background: linear-gradient(120deg, var(--tone-f1f1f1), var(--tone-f3f3f3));
   overflow: hidden;
-  box-shadow: 0 4px 20px rgb(var(--rgb-181818) / 0.04);
 }
 .day-overview {
   padding: 22px 28px 18px;
@@ -3708,29 +3798,10 @@ textarea {
 .trip-map {
   min-height: 0;
   min-width: 0;
+  height: 100%;
+  width: 100%;
   position: relative;
   overflow: hidden;
-}
-.trip-map.trip-map-hero {
-  width: 100%;
-  height: 500px;
-  min-height: 440px;
-  max-height: 620px;
-  border-bottom: 1px solid var(--line);
-  flex-shrink: 0;
-  box-shadow: inset 0 -2px 12px rgba(0, 0, 0, 0.08);
-}
-@media (min-width: 1400px) {
-  .trip-map.trip-map-hero {
-    height: 540px;
-    min-height: 480px;
-  }
-}
-@media (max-width: 768px) {
-  .trip-map.trip-map-hero {
-    height: 360px;
-    min-height: 300px;
-  }
 }
 .trip-map .map-city-card {
   left: 20px;
@@ -4152,18 +4223,13 @@ textarea {
     gap: 6px;
   }
   .trip-header-actions .primary-button {
-    padding: 0 9px;
-  }
-  .trip-header-actions .secondary-button > span {
-    display: none;
+    padding: 0 10px;
   }
   .trip-header-actions .secondary-button {
     padding: 0 10px;
   }
   .trip-body {
-    display: flex;
-    flex-direction: column;
-    padding: 20px 16px;
+    grid-template-columns: minmax(350px, 420px) minmax(0, 1fr);
   }
   .trip-stops-scroll {
     padding: 0 18px 20px;
@@ -4564,36 +4630,73 @@ textarea {
     bottom: 73px;
   }
   .trip-header {
-    padding: 20px;
-    min-height: 100px;
+    padding: 14px 18px;
+    min-height: auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
   }
-  .trip-header-actions .dropdown-trigger {
-    display: none;
+  .trip-header-left {
+    width: 100%;
+    align-items: center;
+    gap: 12px;
+  }
+  .trip-header-actions {
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    gap: 6px;
+  }
+  .trip-mobile-nav {
+    display: flex;
+  }
+  .mobile-view-map-btn {
+    display: inline-flex;
+    padding: 0 10px;
+    min-height: 32px;
+    font-size: 11px;
   }
   .trip-body {
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
+    overflow: hidden;
+    height: 100%;
+    flex: 1;
+    min-height: 0;
   }
-  .trip-stops-panel {
+  .trip-body.mobile-show-stops .trip-stops-panel {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    min-height: 0;
     border-right: 0;
-    overflow: visible;
-    min-height: 380px;
-    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .trip-body.mobile-show-stops .trip-map {
+    display: none;
+  }
+  .trip-body.mobile-show-map .trip-stops-panel {
+    display: none;
+  }
+  .trip-body.mobile-show-map .trip-map {
+    display: block;
+    flex: 1;
+    height: 100%;
+    min-height: 0;
+    width: 100%;
+    position: relative;
+    border-bottom: 0;
   }
   .trip-stops-scroll {
-    overflow: visible;
+    overflow-y: auto;
+    flex: 1;
     min-height: 0;
-    padding: 0 20px 20px;
+    padding: 0 18px 18px;
   }
   .day-overview {
-    padding: 20px;
-  }
-  .trip-map {
-    height: 300px;
-    min-height: 300px;
-    order: -1;
-    border-bottom: 1px solid var(--line);
+    padding: 16px 18px;
   }
   .trip-map .map-live-tag {
     top: 20px;
@@ -4602,7 +4705,9 @@ textarea {
   }
   .trip-map .route-summary {
     bottom: 20px;
-    max-width: calc(100% - 190px);
+    left: 14px;
+    right: 14px;
+    max-width: calc(100% - 28px);
   }
   .trip-map .map-legend-toggle {
     bottom: 20px;
@@ -5437,26 +5542,27 @@ textarea {
     gap: 6px;
   }
   .trip-header-actions {
-    padding-top: 18px;
+    padding-top: 8px;
     gap: 7px;
   }
   .trip-header-actions .primary-button,
   .trip-header-actions .secondary-button {
-    width: 30px;
-    min-height: 31px;
-    padding: 0;
-    gap: 0;
+    width: auto;
+    min-height: 32px;
+    padding: 0 10px;
+    gap: 6px;
+    font-size: 11px;
   }
   .trip-header-actions svg {
     width: 14px;
   }
   .day-tabs {
-    min-height: 75px;
+    min-height: 64px;
   }
   .day-tabs > button {
-    padding: 13px 17px 11px;
-    min-width: 113px;
-    gap: 6px;
+    padding: 10px 14px 9px;
+    min-width: 105px;
+    gap: 4px;
   }
   .day-tabs strong {
     font-size: 10px;
@@ -5467,9 +5573,10 @@ textarea {
   .day-tabs small {
     font-size: 6px;
   }
-  .trip-map {
-    height: 230px;
-    min-height: 230px;
+  .trip-body.mobile-show-map .trip-map {
+    height: 100%;
+    min-height: 0;
+    flex: 1;
   }
   .trip-map .map-city-card {
     top: 15px;

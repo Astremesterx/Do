@@ -1339,6 +1339,7 @@ export default function App() {
             <ChatsWorkspace onSelect={showEvent} />
           ) : view === 'trips' ? (
             <TripWorkspace
+              onBack={() => changeView('discover')}
               onCreate={() => setDialog('trip')}
               onSelect={showEvent}
               notify={notify}
