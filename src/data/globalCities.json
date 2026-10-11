@@ -1,0 +1,1701 @@
+{
+  "cities": {
+    "aba": {
+      "lat": 5.1066,
+      "lon": 7.3667,
+      "country": "Nigeria"
+    },
+    "abakaliki": {
+      "lat": 6.3249,
+      "lon": 8.1137,
+      "country": "Nigeria"
+    },
+    "abeokuta": {
+      "lat": 7.1475,
+      "lon": 3.3619,
+      "country": "Nigeria"
+    },
+    "abidjan": {
+      "lat": 5.36,
+      "lon": -4.0083,
+      "country": "Côte d'Ivoire"
+    },
+    "abomey": {
+      "lat": 7.1828,
+      "lon": 1.9912,
+      "country": "Benin"
+    },
+    "abu dhabi": {
+      "lat": 24.4539,
+      "lon": 54.3773,
+      "country": "United Arab Emirates"
+    },
+    "abuja": {
+      "lat": 9.0765,
+      "lon": 7.3986,
+      "country": "Nigeria"
+    },
+    "accra": {
+      "lat": 5.6037,
+      "lon": -0.187,
+      "country": "Ghana"
+    },
+    "addis ababa": {
+      "lat": 9.032,
+      "lon": 38.7482,
+      "country": "Ethiopia"
+    },
+    "agrigento": {
+      "lat": 37.3106,
+      "lon": 13.5766,
+      "country": "Italy"
+    },
+    "ahlen": {
+      "lat": 51.7634,
+      "lon": 7.8927,
+      "country": "Germany"
+    },
+    "aithi river": {
+      "lat": -1.4552,
+      "lon": 36.9858,
+      "country": "Kenya"
+    },
+    "athi river": {
+      "lat": -1.4552,
+      "lon": 36.9858,
+      "country": "Kenya"
+    },
+    "aix-en-provence": {
+      "lat": 43.5297,
+      "lon": 5.4474,
+      "country": "France"
+    },
+    "akure": {
+      "lat": 7.2571,
+      "lon": 5.2058,
+      "country": "Nigeria"
+    },
+    "albuquerque": {
+      "lat": 35.0844,
+      "lon": -106.6504,
+      "country": "United States of America"
+    },
+    "alexandria": {
+      "lat": 31.2001,
+      "lon": 29.9187,
+      "country": "Egypt"
+    },
+    "alicante": {
+      "lat": 38.3452,
+      "lon": -0.481,
+      "country": "Spain"
+    },
+    "almaty": {
+      "lat": 43.222,
+      "lon": 76.8512,
+      "country": "Kazakhstan"
+    },
+    "americana": {
+      "lat": -22.7375,
+      "lon": -47.3331,
+      "country": "Brazil"
+    },
+    "amsterdam": {
+      "lat": 52.3676,
+      "lon": 4.9041,
+      "country": "Netherlands"
+    },
+    "ankara": {
+      "lat": 39.9334,
+      "lon": 32.8597,
+      "country": "Turkey"
+    },
+    "antalya": {
+      "lat": 36.8969,
+      "lon": 30.7133,
+      "country": "Turkey"
+    },
+    "antananarivo": {
+      "lat": -18.8792,
+      "lon": 47.5079,
+      "country": "Madagascar"
+    },
+    "antsirabe": {
+      "lat": -19.8659,
+      "lon": 47.0333,
+      "country": "Madagascar"
+    },
+    "arapiraca": {
+      "lat": -9.7548,
+      "lon": -36.6614,
+      "country": "Brazil"
+    },
+    "arequipa": {
+      "lat": -16.409,
+      "lon": -71.5375,
+      "country": "Peru"
+    },
+    "arusha": {
+      "lat": -3.3869,
+      "lon": 36.683,
+      "country": "Tanzania"
+    },
+    "asaba": {
+      "lat": 6.1983,
+      "lon": 6.7337,
+      "country": "Nigeria"
+    },
+    "asunción": {
+      "lat": -25.2637,
+      "lon": -57.5759,
+      "country": "Paraguay"
+    },
+    "atlanta": {
+      "lat": 33.749,
+      "lon": -84.388,
+      "country": "United States of America"
+    },
+    "auckland": {
+      "lat": -36.8485,
+      "lon": 174.7633,
+      "country": "New Zealand"
+    },
+    "austin": {
+      "lat": 30.2672,
+      "lon": -97.7431,
+      "country": "United States of America"
+    },
+    "ayacucho": {
+      "lat": -13.1588,
+      "lon": -74.2239,
+      "country": "Peru"
+    },
+    "baguio": {
+      "lat": 16.4023,
+      "lon": 120.596,
+      "country": "Philippines"
+    },
+    "baku": {
+      "lat": 40.4093,
+      "lon": 49.8671,
+      "country": "Azerbaijan"
+    },
+    "baltimore": {
+      "lat": 39.2904,
+      "lon": -76.6122,
+      "country": "United States of America"
+    },
+    "bamenda": {
+      "lat": 5.9631,
+      "lon": 10.1591,
+      "country": "Cameroon"
+    },
+    "banjul": {
+      "lat": 13.4549,
+      "lon": -16.579,
+      "country": "Gambia"
+    },
+    "baraton": {
+      "lat": 0.2589,
+      "lon": 35.0847,
+      "country": "Kenya"
+    },
+    "barcelona": {
+      "lat": 41.3851,
+      "lon": 2.1734,
+      "country": "Spain"
+    },
+    "baton rouge": {
+      "lat": 30.4515,
+      "lon": -91.1871,
+      "country": "United States of America"
+    },
+    "batumi": {
+      "lat": 41.6168,
+      "lon": 41.6367,
+      "country": "Georgia"
+    },
+    "belgrade": {
+      "lat": 44.7866,
+      "lon": 20.4489,
+      "country": "Serbia"
+    },
+    "belo horizonte": {
+      "lat": -19.9167,
+      "lon": -43.9345,
+      "country": "Brazil"
+    },
+    "belém": {
+      "lat": -1.4558,
+      "lon": -48.4902,
+      "country": "Brazil"
+    },
+    "bengaluru": {
+      "lat": 12.9716,
+      "lon": 77.5946,
+      "country": "India"
+    },
+    "bangalore": {
+      "lat": 12.9716,
+      "lon": 77.5946,
+      "country": "India"
+    },
+    "beni suef": {
+      "lat": 29.0744,
+      "lon": 31.0979,
+      "country": "Egypt"
+    },
+    "benin": {
+      "lat": 6.335,
+      "lon": 5.6037,
+      "country": "Nigeria"
+    },
+    "berlin": {
+      "lat": 52.52,
+      "lon": 13.405,
+      "country": "Germany"
+    },
+    "bletchley": {
+      "lat": 51.9942,
+      "lon": -0.7327,
+      "country": "United Kingdom"
+    },
+    "brasília": {
+      "lat": -15.7975,
+      "lon": -47.8919,
+      "country": "Brazil"
+    },
+    "brisbane": {
+      "lat": -27.4705,
+      "lon": 153.026,
+      "country": "Australia"
+    },
+    "brunswick": {
+      "lat": 31.1499,
+      "lon": -81.4915,
+      "country": "United States of America"
+    },
+    "buea": {
+      "lat": 4.156,
+      "lon": 9.2415,
+      "country": "Cameroon"
+    },
+    "bugiri": {
+      "lat": 0.5714,
+      "lon": 33.7417,
+      "country": "Uganda"
+    },
+    "bujumbura": {
+      "lat": -3.3822,
+      "lon": 29.3644,
+      "country": "Burundi"
+    },
+    "cairo": {
+      "lat": 30.0444,
+      "lon": 31.2357,
+      "country": "Egypt"
+    },
+    "calicut": {
+      "lat": 11.2588,
+      "lon": 75.7804,
+      "country": "India"
+    },
+    "kozhikode": {
+      "lat": 11.2588,
+      "lon": 75.7804,
+      "country": "India"
+    },
+    "campeche": {
+      "lat": 19.8301,
+      "lon": -90.5349,
+      "country": "Mexico"
+    },
+    "cape town": {
+      "lat": -33.9249,
+      "lon": 18.4241,
+      "country": "South Africa"
+    },
+    "casablanca": {
+      "lat": 33.5731,
+      "lon": -7.5898,
+      "country": "Morocco"
+    },
+    "charlotte": {
+      "lat": 35.2271,
+      "lon": -80.8431,
+      "country": "United States of America"
+    },
+    "chennai": {
+      "lat": 13.0827,
+      "lon": 80.2707,
+      "country": "India"
+    },
+    "chicago": {
+      "lat": 41.8781,
+      "lon": -87.6298,
+      "country": "United States of America"
+    },
+    "cincinnati": {
+      "lat": 39.1031,
+      "lon": -84.512,
+      "country": "United States of America"
+    },
+    "cochabamba": {
+      "lat": -17.3895,
+      "lon": -66.1568,
+      "country": "Bolivia"
+    },
+    "columbus": {
+      "lat": 39.9612,
+      "lon": -82.9988,
+      "country": "United States of America"
+    },
+    "conakry": {
+      "lat": 9.6412,
+      "lon": -13.5784,
+      "country": "Guinea"
+    },
+    "copenhagen": {
+      "lat": 55.6761,
+      "lon": 12.5683,
+      "country": "Denmark"
+    },
+    "curitiba": {
+      "lat": -25.429,
+      "lon": -49.2671,
+      "country": "Brazil"
+    },
+    "cusco": {
+      "lat": -13.5319,
+      "lon": -71.9675,
+      "country": "Peru"
+    },
+    "daressalaam": {
+      "lat": -6.7924,
+      "lon": 39.2083,
+      "country": "Tanzania"
+    },
+    "dar es salaam": {
+      "lat": -6.7924,
+      "lon": 39.2083,
+      "country": "Tanzania"
+    },
+    "dakar": {
+      "lat": 14.7167,
+      "lon": -17.4677,
+      "country": "Senegal"
+    },
+    "dallas": {
+      "lat": 32.7767,
+      "lon": -96.797,
+      "country": "United States of America"
+    },
+    "delhi": {
+      "lat": 28.6139,
+      "lon": 77.209,
+      "country": "India"
+    },
+    "denver": {
+      "lat": 39.7392,
+      "lon": -104.9903,
+      "country": "United States of America"
+    },
+    "detroit": {
+      "lat": 42.3314,
+      "lon": -83.0458,
+      "country": "United States of America"
+    },
+    "dhaka": {
+      "lat": 23.8103,
+      "lon": 90.4125,
+      "country": "Bangladesh"
+    },
+    "dijon": {
+      "lat": 47.322,
+      "lon": 5.0415,
+      "country": "France"
+    },
+    "douala": {
+      "lat": 4.0511,
+      "lon": 9.7679,
+      "country": "Cameroon"
+    },
+    "dubai": {
+      "lat": 25.2048,
+      "lon": 55.2708,
+      "country": "United Arab Emirates"
+    },
+    "dublin": {
+      "lat": 53.3498,
+      "lon": -6.2603,
+      "country": "Ireland"
+    },
+    "durban": {
+      "lat": -29.8587,
+      "lon": 31.0218,
+      "country": "South Africa"
+    },
+    "ebolowa": {
+      "lat": 2.9,
+      "lon": 11.15,
+      "country": "Cameroon"
+    },
+    "edinburgh": {
+      "lat": 55.9533,
+      "lon": -3.1883,
+      "country": "United Kingdom"
+    },
+    "eldoret": {
+      "lat": 0.5143,
+      "lon": 35.2698,
+      "country": "Kenya"
+    },
+    "enugu": {
+      "lat": 6.4584,
+      "lon": 7.5464,
+      "country": "Nigeria"
+    },
+    "florence": {
+      "lat": 43.7696,
+      "lon": 11.2558,
+      "country": "Italy"
+    },
+    "frankfurt": {
+      "lat": 50.1109,
+      "lon": 8.6821,
+      "country": "Germany"
+    },
+    "fukuoka": {
+      "lat": 33.5904,
+      "lon": 130.4017,
+      "country": "Japan"
+    },
+    "geneva": {
+      "lat": 46.2044,
+      "lon": 6.1432,
+      "country": "Switzerland"
+    },
+    "ghaziabad": {
+      "lat": 28.6692,
+      "lon": 77.4538,
+      "country": "India"
+    },
+    "goma": {
+      "lat": -1.6792,
+      "lon": 29.2228,
+      "country": "Congo"
+    },
+    "guadalajara": {
+      "lat": 20.6597,
+      "lon": -103.3496,
+      "country": "Mexico"
+    },
+    "guangzhou": {
+      "lat": 23.1291,
+      "lon": 113.2644,
+      "country": "China"
+    },
+    "hamburg": {
+      "lat": 53.5511,
+      "lon": 9.9937,
+      "country": "Germany"
+    },
+    "hanoi": {
+      "lat": 21.0285,
+      "lon": 105.8542,
+      "country": "Vietnam"
+    },
+    "harare": {
+      "lat": -17.8216,
+      "lon": 31.0492,
+      "country": "Zimbabwe"
+    },
+    "helsinki": {
+      "lat": 60.1699,
+      "lon": 24.9384,
+      "country": "Finland"
+    },
+    "ho chi minh city": {
+      "lat": 10.8231,
+      "lon": 106.6297,
+      "country": "Vietnam"
+    },
+    "hong kong": {
+      "lat": 22.28,
+      "lon": 114.183,
+      "country": "Hong Kong"
+    },
+    "houston": {
+      "lat": 29.7604,
+      "lon": -95.3698,
+      "country": "United States of America"
+    },
+    "hyderabad": {
+      "lat": 17.385,
+      "lon": 78.4867,
+      "country": "India"
+    },
+    "ibadan": {
+      "lat": 7.3775,
+      "lon": 3.947,
+      "country": "Nigeria"
+    },
+    "ilorin": {
+      "lat": 8.4799,
+      "lon": 4.5418,
+      "country": "Nigeria"
+    },
+    "islamabad": {
+      "lat": 33.6844,
+      "lon": 73.0479,
+      "country": "Pakistan"
+    },
+    "istanbul": {
+      "lat": 41.0082,
+      "lon": 28.9784,
+      "country": "Turkey"
+    },
+    "izmir": {
+      "lat": 38.4237,
+      "lon": 27.1428,
+      "country": "Turkey"
+    },
+    "jaipur": {
+      "lat": 26.9124,
+      "lon": 75.7873,
+      "country": "India"
+    },
+    "jakarta": {
+      "lat": -6.2088,
+      "lon": 106.8456,
+      "country": "Indonesia"
+    },
+    "johannesburg": {
+      "lat": -26.2041,
+      "lon": 28.0473,
+      "country": "South Africa"
+    },
+    "jos": {
+      "lat": 9.8965,
+      "lon": 8.8583,
+      "country": "Nigeria"
+    },
+    "kaduna": {
+      "lat": 10.5105,
+      "lon": 7.4165,
+      "country": "Nigeria"
+    },
+    "kampala": {
+      "lat": 0.3476,
+      "lon": 32.5825,
+      "country": "Uganda"
+    },
+    "kano": {
+      "lat": 12.0022,
+      "lon": 8.592,
+      "country": "Nigeria"
+    },
+    "karachi": {
+      "lat": 24.8607,
+      "lon": 67.0011,
+      "country": "Pakistan"
+    },
+    "khartoum": {
+      "lat": 15.5007,
+      "lon": 32.5599,
+      "country": "Sudan"
+    },
+    "kigali": {
+      "lat": -1.9441,
+      "lon": 30.0619,
+      "country": "Rwanda"
+    },
+    "kingston": {
+      "lat": 18.0179,
+      "lon": -76.8099,
+      "country": "Jamaica"
+    },
+    "kinshasa": {
+      "lat": -4.4419,
+      "lon": 15.2663,
+      "country": "Congo"
+    },
+    "kisumu": {
+      "lat": -0.0917,
+      "lon": 34.768,
+      "country": "Kenya"
+    },
+    "kochi": {
+      "lat": 9.9312,
+      "lon": 76.2673,
+      "country": "India"
+    },
+    "kolkata": {
+      "lat": 22.5726,
+      "lon": 88.3639,
+      "country": "India"
+    },
+    "kuala lumpur": {
+      "lat": 3.139,
+      "lon": 101.6869,
+      "country": "Malaysia"
+    },
+    "kumasi": {
+      "lat": 6.6885,
+      "lon": -1.6244,
+      "country": "Ghana"
+    },
+    "kyiv": {
+      "lat": 50.4501,
+      "lon": 30.5234,
+      "country": "Ukraine"
+    },
+    "kyoto": {
+      "lat": 35.0116,
+      "lon": 135.7681,
+      "country": "Japan"
+    },
+    "lagos": {
+      "lat": 6.5244,
+      "lon": 3.3792,
+      "country": "Nigeria"
+    },
+    "lahore": {
+      "lat": 31.5204,
+      "lon": 74.3587,
+      "country": "Pakistan"
+    },
+    "lawrence": {
+      "lat": 38.9717,
+      "lon": -95.2353,
+      "country": "United States of America"
+    },
+    "leeds": {
+      "lat": 53.8008,
+      "lon": -1.5491,
+      "country": "United Kingdom"
+    },
+    "lima": {
+      "lat": -12.0464,
+      "lon": -77.0428,
+      "country": "Peru"
+    },
+    "lille": {
+      "lat": 50.6292,
+      "lon": 3.0573,
+      "country": "France"
+    },
+    "lindon": {
+      "lat": 40.3441,
+      "lon": -111.721,
+      "country": "United States of America"
+    },
+    "lisbon": {
+      "lat": 38.7223,
+      "lon": -9.1393,
+      "country": "Portugal"
+    },
+    "liverpool": {
+      "lat": 53.4084,
+      "lon": -2.9916,
+      "country": "United Kingdom"
+    },
+    "ljubljana": {
+      "lat": 46.0569,
+      "lon": 14.5058,
+      "country": "Slovenia"
+    },
+    "lomé": {
+      "lat": 6.1375,
+      "lon": 1.2125,
+      "country": "Togo"
+    },
+    "london": {
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "country": "United Kingdom"
+    },
+    "los angeles": {
+      "lat": 34.0522,
+      "lon": -118.2437,
+      "country": "United States of America"
+    },
+    "lubumbashi": {
+      "lat": -11.6876,
+      "lon": 27.5026,
+      "country": "Congo"
+    },
+    "lusaka": {
+      "lat": -15.3875,
+      "lon": 28.3228,
+      "country": "Zambia"
+    },
+    "lyon": {
+      "lat": 45.764,
+      "lon": 4.8357,
+      "country": "France"
+    },
+    "madrid": {
+      "lat": 40.4168,
+      "lon": -3.7038,
+      "country": "Spain"
+    },
+    "manchester": {
+      "lat": 53.4808,
+      "lon": -2.2426,
+      "country": "United Kingdom"
+    },
+    "manila": {
+      "lat": 14.5995,
+      "lon": 120.9842,
+      "country": "Philippines"
+    },
+    "maputo": {
+      "lat": -25.9692,
+      "lon": 32.5732,
+      "country": "Mozambique"
+    },
+    "marrakech": {
+      "lat": 31.6295,
+      "lon": -7.9811,
+      "country": "Morocco"
+    },
+    "marseille": {
+      "lat": 43.2965,
+      "lon": 5.3698,
+      "country": "France"
+    },
+    "medellín": {
+      "lat": 6.2442,
+      "lon": -75.5812,
+      "country": "Colombia"
+    },
+    "melbourne": {
+      "lat": -37.8136,
+      "lon": 144.9631,
+      "country": "Australia"
+    },
+    "mexico city": {
+      "lat": 19.4326,
+      "lon": -99.1332,
+      "country": "Mexico"
+    },
+    "miami": {
+      "lat": 25.7617,
+      "lon": -80.1918,
+      "country": "United States of America"
+    },
+    "milan": {
+      "lat": 45.4642,
+      "lon": 9.19,
+      "country": "Italy"
+    },
+    "milwaukee": {
+      "lat": 43.0389,
+      "lon": -87.9065,
+      "country": "United States of America"
+    },
+    "minneapolis": {
+      "lat": 44.9778,
+      "lon": -93.265,
+      "country": "United States of America"
+    },
+    "mombasa": {
+      "lat": -4.0435,
+      "lon": 39.6682,
+      "country": "Kenya"
+    },
+    "monterrey": {
+      "lat": 25.6866,
+      "lon": -100.3161,
+      "country": "Mexico"
+    },
+    "montevideo": {
+      "lat": -34.9011,
+      "lon": -56.1645,
+      "country": "Uruguay"
+    },
+    "montreal": {
+      "lat": 45.5017,
+      "lon": -73.5673,
+      "country": "Canada"
+    },
+    "mumbai": {
+      "lat": 19.076,
+      "lon": 72.8777,
+      "country": "India"
+    },
+    "munich": {
+      "lat": 48.1351,
+      "lon": 11.582,
+      "country": "Germany"
+    },
+    "muscat": {
+      "lat": 23.588,
+      "lon": 58.3829,
+      "country": "Oman"
+    },
+    "nairobi": {
+      "lat": -1.2921,
+      "lon": 36.8219,
+      "country": "Kenya"
+    },
+    "naples": {
+      "lat": 40.8518,
+      "lon": 14.2681,
+      "country": "Italy"
+    },
+    "nashville": {
+      "lat": 36.1627,
+      "lon": -86.7816,
+      "country": "United States of America"
+    },
+    "new delhi": {
+      "lat": 28.6139,
+      "lon": 77.209,
+      "country": "India"
+    },
+    "new york": {
+      "lat": 40.7128,
+      "lon": -74.006,
+      "country": "United States of America"
+    },
+    "nice": {
+      "lat": 43.7102,
+      "lon": 7.262,
+      "country": "France"
+    },
+    "nicosia": {
+      "lat": 35.1856,
+      "lon": 33.3823,
+      "country": "Cyprus"
+    },
+    "oakland": {
+      "lat": 37.8044,
+      "lon": -122.2712,
+      "country": "United States of America"
+    },
+    "omaha": {
+      "lat": 41.2565,
+      "lon": -95.9345,
+      "country": "United States of America"
+    },
+    "orlando": {
+      "lat": 28.5383,
+      "lon": -81.3792,
+      "country": "United States of America"
+    },
+    "osaka": {
+      "lat": 34.6937,
+      "lon": 135.5023,
+      "country": "Japan"
+    },
+    "oslo": {
+      "lat": 59.9139,
+      "lon": 10.7522,
+      "country": "Norway"
+    },
+    "ottawa": {
+      "lat": 45.4215,
+      "lon": -75.6972,
+      "country": "Canada"
+    },
+    "paris": {
+      "lat": 48.8566,
+      "lon": 2.3522,
+      "country": "France"
+    },
+    "perth": {
+      "lat": -31.9505,
+      "lon": 115.8605,
+      "country": "Australia"
+    },
+    "philadelphia": {
+      "lat": 39.9526,
+      "lon": -75.1652,
+      "country": "United States of America"
+    },
+    "phoenix": {
+      "lat": 33.4484,
+      "lon": -112.074,
+      "country": "United States of America"
+    },
+    "pittsburgh": {
+      "lat": 40.4406,
+      "lon": -79.9959,
+      "country": "United States of America"
+    },
+    "port harcourt": {
+      "lat": 4.8156,
+      "lon": 7.0498,
+      "country": "Nigeria"
+    },
+    "porto": {
+      "lat": 41.1579,
+      "lon": -8.6291,
+      "country": "Portugal"
+    },
+    "prague": {
+      "lat": 50.0755,
+      "lon": 14.4378,
+      "country": "Czechia"
+    },
+    "puebla": {
+      "lat": 19.0414,
+      "lon": -98.2063,
+      "country": "Mexico"
+    },
+    "pune": {
+      "lat": 18.5204,
+      "lon": 73.8567,
+      "country": "India"
+    },
+    "quito": {
+      "lat": -0.1807,
+      "lon": -78.4678,
+      "country": "Ecuador"
+    },
+    "raleigh": {
+      "lat": 35.7796,
+      "lon": -78.6382,
+      "country": "United States of America"
+    },
+    "recife": {
+      "lat": -8.0476,
+      "lon": -34.877,
+      "country": "Brazil"
+    },
+    "reykjavik": {
+      "lat": 64.1466,
+      "lon": -21.9426,
+      "country": "Iceland"
+    },
+    "riga": {
+      "lat": 56.9496,
+      "lon": 24.1052,
+      "country": "Latvia"
+    },
+    "rio de janeiro": {
+      "lat": -22.9068,
+      "lon": -43.1729,
+      "country": "Brazil"
+    },
+    "riyadh": {
+      "lat": 24.7136,
+      "lon": 46.6753,
+      "country": "Saudi Arabia"
+    },
+    "rome": {
+      "lat": 41.9028,
+      "lon": 12.4964,
+      "country": "Italy"
+    },
+    "rotterdam": {
+      "lat": 51.9244,
+      "lon": 4.4777,
+      "country": "Netherlands"
+    },
+    "salt lake city": {
+      "lat": 40.7608,
+      "lon": -111.891,
+      "country": "United States of America"
+    },
+    "salvador": {
+      "lat": -12.9777,
+      "lon": -38.5016,
+      "country": "Brazil"
+    },
+    "san antonio": {
+      "lat": 29.4241,
+      "lon": -98.4936,
+      "country": "United States of America"
+    },
+    "san diego": {
+      "lat": 32.7157,
+      "lon": -117.1611,
+      "country": "United States of America"
+    },
+    "san francisco": {
+      "lat": 37.7749,
+      "lon": -122.4194,
+      "country": "United States of America"
+    },
+    "san jose": {
+      "lat": 37.3382,
+      "lon": -121.8863,
+      "country": "United States of America"
+    },
+    "san juan": {
+      "lat": 18.4655,
+      "lon": -66.1057,
+      "country": "Puerto Rico"
+    },
+    "santiago": {
+      "lat": -33.4489,
+      "lon": -70.6693,
+      "country": "Chile"
+    },
+    "santo domingo": {
+      "lat": 18.4861,
+      "lon": -69.9312,
+      "country": "Dominican Republic"
+    },
+    "sao paulo": {
+      "lat": -23.5505,
+      "lon": -46.6333,
+      "country": "Brazil"
+    },
+    "seattle": {
+      "lat": 47.6062,
+      "lon": -122.3321,
+      "country": "United States of America"
+    },
+    "seoul": {
+      "lat": 37.5665,
+      "lon": 126.978,
+      "country": "South Korea"
+    },
+    "seville": {
+      "lat": 37.3891,
+      "lon": -5.9845,
+      "country": "Spain"
+    },
+    "shanghai": {
+      "lat": 31.2304,
+      "lon": 121.4737,
+      "country": "China"
+    },
+    "sheffield": {
+      "lat": 53.3811,
+      "lon": -1.4701,
+      "country": "United Kingdom"
+    },
+    "shenzhen": {
+      "lat": 22.5431,
+      "lon": 114.0579,
+      "country": "China"
+    },
+    "sincelejo": {
+      "lat": 9.3047,
+      "lon": -75.3978,
+      "country": "Colombia"
+    },
+    "singapore": {
+      "lat": 1.3521,
+      "lon": 103.8198,
+      "country": "Singapore"
+    },
+    "stockholm": {
+      "lat": 59.3293,
+      "lon": 18.0686,
+      "country": "Sweden"
+    },
+    "stuttgart": {
+      "lat": 48.7758,
+      "lon": 9.1829,
+      "country": "Germany"
+    },
+    "sydney": {
+      "lat": -33.8688,
+      "lon": 151.2093,
+      "country": "Australia"
+    },
+    "taipei": {
+      "lat": 25.033,
+      "lon": 121.5654,
+      "country": "Taiwan"
+    },
+    "tallinn": {
+      "lat": 59.437,
+      "lon": 24.7535,
+      "country": "Estonia"
+    },
+    "tampa": {
+      "lat": 27.9506,
+      "lon": -82.4572,
+      "country": "United States of America"
+    },
+    "taoyuan": {
+      "lat": 24.9936,
+      "lon": 121.301,
+      "country": "Taiwan"
+    },
+    "tarija": {
+      "lat": -21.5355,
+      "lon": -64.7296,
+      "country": "Bolivia"
+    },
+    "tbilisi": {
+      "lat": 41.7151,
+      "lon": 44.8271,
+      "country": "Georgia"
+    },
+    "tegucigalpa": {
+      "lat": 14.0723,
+      "lon": -87.1921,
+      "country": "Honduras"
+    },
+    "tel aviv": {
+      "lat": 32.0853,
+      "lon": 34.7818,
+      "country": "Israel"
+    },
+    "thiruvananthapuram": {
+      "lat": 8.5241,
+      "lon": 76.9366,
+      "country": "India"
+    },
+    "tianjin": {
+      "lat": 39.3434,
+      "lon": 117.3616,
+      "country": "China"
+    },
+    "tokyo": {
+      "lat": 35.6895,
+      "lon": 139.6917,
+      "country": "Japan"
+    },
+    "toronto": {
+      "lat": 43.651,
+      "lon": -79.347,
+      "country": "Canada"
+    },
+    "tripoli": {
+      "lat": 32.8872,
+      "lon": 13.1913,
+      "country": "Libya"
+    },
+    "tunis": {
+      "lat": 36.8065,
+      "lon": 10.1815,
+      "country": "Tunisia"
+    },
+    "turin": {
+      "lat": 45.0703,
+      "lon": 7.6869,
+      "country": "Italy"
+    },
+    "udaipur": {
+      "lat": 24.5854,
+      "lon": 73.7125,
+      "country": "India"
+    },
+    "valencia": {
+      "lat": 39.4699,
+      "lon": -0.3763,
+      "country": "Spain"
+    },
+    "vancouver": {
+      "lat": 49.2827,
+      "lon": -123.1207,
+      "country": "Canada"
+    },
+    "venice": {
+      "lat": 45.4408,
+      "lon": 12.3155,
+      "country": "Italy"
+    },
+    "vienna": {
+      "lat": 48.2082,
+      "lon": 16.3738,
+      "country": "Austria"
+    },
+    "villahermosa": {
+      "lat": 17.9892,
+      "lon": -92.9281,
+      "country": "Mexico"
+    },
+    "vilnius": {
+      "lat": 54.6872,
+      "lon": 25.2797,
+      "country": "Lithuania"
+    },
+    "virginia beach": {
+      "lat": 36.8529,
+      "lon": -75.978,
+      "country": "United States of America"
+    },
+    "warsaw": {
+      "lat": 52.2297,
+      "lon": 21.0122,
+      "country": "Poland"
+    },
+    "washington": {
+      "lat": 38.9072,
+      "lon": -77.0369,
+      "country": "United States of America"
+    },
+    "wellington": {
+      "lat": -41.2865,
+      "lon": 174.7762,
+      "country": "New Zealand"
+    },
+    "wroclaw": {
+      "lat": 51.1079,
+      "lon": 17.0385,
+      "country": "Poland"
+    },
+    "yamagata": {
+      "lat": 38.2554,
+      "lon": 140.3396,
+      "country": "Japan"
+    },
+    "yaoundé": {
+      "lat": 3.848,
+      "lon": 11.5021,
+      "country": "Cameroon"
+    },
+    "yerevan": {
+      "lat": 40.1792,
+      "lon": 44.4991,
+      "country": "Armenia"
+    },
+    "zagreb": {
+      "lat": 45.815,
+      "lon": 15.9819,
+      "country": "Croatia"
+    },
+    "zurich": {
+      "lat": 47.3769,
+      "lon": 8.5417,
+      "country": "Switzerland"
+    },
+    "monastir": {
+      "lat": 35.7779,
+      "lon": 10.8261,
+      "country": "Tunisia"
+    },
+    "mersin": {
+      "lat": 36.8121,
+      "lon": 34.6415,
+      "country": "Turkey"
+    },
+    "turku": {
+      "lat": 60.4518,
+      "lon": 22.2666,
+      "country": "Finland"
+    },
+    "santa clara": {
+      "lat": 37.3541,
+      "lon": -121.9552,
+      "country": "United States of America"
+    },
+    "greensboro": {
+      "lat": 36.0726,
+      "lon": -79.792,
+      "country": "United States of America"
+    },
+    "waterloo": {
+      "lat": 43.4643,
+      "lon": -80.5204,
+      "country": "Canada"
+    },
+    "boston": {
+      "lat": 42.3601,
+      "lon": -71.0589,
+      "country": "United States of America"
+    },
+    "türkiye": {
+      "lat": 38.9637,
+      "lon": 35.2433
+    }
+  },
+  "countries": {
+    "algeria": {
+      "lat": 28.0339,
+      "lon": 1.6596
+    },
+    "angola": {
+      "lat": -11.2027,
+      "lon": 17.8739
+    },
+    "armenia": {
+      "lat": 40.0691,
+      "lon": 45.0382
+    },
+    "australia": {
+      "lat": -25.2744,
+      "lon": 133.7751
+    },
+    "austria": {
+      "lat": 47.5162,
+      "lon": 14.5501
+    },
+    "azerbaijan": {
+      "lat": 40.1431,
+      "lon": 47.5769
+    },
+    "bangladesh": {
+      "lat": 23.685,
+      "lon": 90.3563
+    },
+    "belgium": {
+      "lat": 50.5039,
+      "lon": 4.4699
+    },
+    "benin": {
+      "lat": 9.3077,
+      "lon": 2.3158
+    },
+    "bolivia": {
+      "lat": -16.2902,
+      "lon": -63.5887
+    },
+    "botswana": {
+      "lat": -22.3285,
+      "lon": 24.6849
+    },
+    "brazil": {
+      "lat": -14.235,
+      "lon": -51.9253
+    },
+    "burkina faso": {
+      "lat": 12.2383,
+      "lon": -1.5616
+    },
+    "burundi": {
+      "lat": -3.3731,
+      "lon": 29.9189
+    },
+    "cameroon": {
+      "lat": 7.3697,
+      "lon": 12.3547
+    },
+    "canada": {
+      "lat": 56.1304,
+      "lon": -106.3468
+    },
+    "chile": {
+      "lat": -35.6751,
+      "lon": -71.543
+    },
+    "china": {
+      "lat": 35.8617,
+      "lon": 104.1954
+    },
+    "colombia": {
+      "lat": 4.5709,
+      "lon": -74.2973
+    },
+    "congo": {
+      "lat": -4.0383,
+      "lon": 21.7587
+    },
+    "congo (the democratic republic of the)": {
+      "lat": -4.0383,
+      "lon": 21.7587
+    },
+    "costa rica": {
+      "lat": 9.7489,
+      "lon": -83.7534
+    },
+    "côte d'ivoire": {
+      "lat": 7.54,
+      "lon": -5.5471
+    },
+    "cyprus": {
+      "lat": 35.1264,
+      "lon": 33.4299
+    },
+    "czechia": {
+      "lat": 49.8175,
+      "lon": 15.473
+    },
+    "denmark": {
+      "lat": 56.2639,
+      "lon": 9.5018
+    },
+    "dominican republic": {
+      "lat": 18.7357,
+      "lon": -70.1627
+    },
+    "ecuador": {
+      "lat": -1.8312,
+      "lon": -78.1834
+    },
+    "egypt": {
+      "lat": 26.8206,
+      "lon": 30.8025
+    },
+    "el salvador": {
+      "lat": 13.7942,
+      "lon": -88.8965
+    },
+    "estonia": {
+      "lat": 58.5953,
+      "lon": 25.0136
+    },
+    "ethiopia": {
+      "lat": 9.145,
+      "lon": 40.4897
+    },
+    "finland": {
+      "lat": 61.9241,
+      "lon": 25.7482
+    },
+    "france": {
+      "lat": 46.2276,
+      "lon": 2.2137
+    },
+    "gabon": {
+      "lat": -0.8037,
+      "lon": 11.6094
+    },
+    "georgia": {
+      "lat": 42.3154,
+      "lon": 43.3569
+    },
+    "germany": {
+      "lat": 51.1657,
+      "lon": 10.4515
+    },
+    "ghana": {
+      "lat": 7.9465,
+      "lon": -1.0232
+    },
+    "greece": {
+      "lat": 39.0742,
+      "lon": 21.8243
+    },
+    "guatemala": {
+      "lat": 15.7835,
+      "lon": -90.2308
+    },
+    "guinea": {
+      "lat": 9.9456,
+      "lon": -9.6966
+    },
+    "honduras": {
+      "lat": 15.2,
+      "lon": -86.2419
+    },
+    "hungary": {
+      "lat": 47.1625,
+      "lon": 19.5033
+    },
+    "india": {
+      "lat": 20.5937,
+      "lon": 78.9629
+    },
+    "indonesia": {
+      "lat": -0.7893,
+      "lon": 113.9213
+    },
+    "ireland": {
+      "lat": 53.1424,
+      "lon": -7.6921
+    },
+    "israel": {
+      "lat": 31.0461,
+      "lon": 34.8516
+    },
+    "italy": {
+      "lat": 41.8719,
+      "lon": 12.5674
+    },
+    "jamaica": {
+      "lat": 18.1096,
+      "lon": -77.2975
+    },
+    "japan": {
+      "lat": 36.2048,
+      "lon": 138.2529
+    },
+    "jordan": {
+      "lat": 30.5852,
+      "lon": 36.2384
+    },
+    "kazakhstan": {
+      "lat": 48.0196,
+      "lon": 66.9237
+    },
+    "kenya": {
+      "lat": -0.0236,
+      "lon": 37.9062
+    },
+    "libya": {
+      "lat": 26.3351,
+      "lon": 17.2283
+    },
+    "madagascar": {
+      "lat": -18.7669,
+      "lon": 46.8691
+    },
+    "malaysia": {
+      "lat": 4.2105,
+      "lon": 101.9758
+    },
+    "mexico": {
+      "lat": 23.6345,
+      "lon": -102.5528
+    },
+    "morocco": {
+      "lat": 31.7917,
+      "lon": -7.0926
+    },
+    "mozambique": {
+      "lat": -18.6657,
+      "lon": 35.5296
+    },
+    "nepal": {
+      "lat": 28.3949,
+      "lon": 84.124
+    },
+    "netherlands": {
+      "lat": 52.1326,
+      "lon": 5.2913
+    },
+    "new zealand": {
+      "lat": -40.9006,
+      "lon": 174.886
+    },
+    "nigeria": {
+      "lat": 9.082,
+      "lon": 8.6753
+    },
+    "norway": {
+      "lat": 60.472,
+      "lon": 8.4689
+    },
+    "pakistan": {
+      "lat": 30.3753,
+      "lon": 69.3451
+    },
+    "paraguay": {
+      "lat": -23.4425,
+      "lon": -58.4438
+    },
+    "peru": {
+      "lat": -9.19,
+      "lon": -75.0152
+    },
+    "philippines": {
+      "lat": 12.8797,
+      "lon": 121.774
+    },
+    "poland": {
+      "lat": 51.9194,
+      "lon": 19.1451
+    },
+    "portugal": {
+      "lat": 39.3999,
+      "lon": -8.2245
+    },
+    "rwanda": {
+      "lat": -1.9403,
+      "lon": 29.8739
+    },
+    "saudi arabia": {
+      "lat": 23.8859,
+      "lon": 45.0792
+    },
+    "senegal": {
+      "lat": 14.4974,
+      "lon": -14.4524
+    },
+    "serbia": {
+      "lat": 44.0165,
+      "lon": 21.0059
+    },
+    "singapore": {
+      "lat": 1.3521,
+      "lon": 103.8198
+    },
+    "south africa": {
+      "lat": -30.5595,
+      "lon": 22.9375
+    },
+    "south korea": {
+      "lat": 35.9078,
+      "lon": 127.7669
+    },
+    "spain": {
+      "lat": 40.4637,
+      "lon": -3.7492
+    },
+    "sri lanka": {
+      "lat": 7.8731,
+      "lon": 80.7718
+    },
+    "sudan": {
+      "lat": 12.8628,
+      "lon": 30.2176
+    },
+    "sweden": {
+      "lat": 60.1282,
+      "lon": 18.6435
+    },
+    "switzerland": {
+      "lat": 46.8182,
+      "lon": 8.2275
+    },
+    "taiwan": {
+      "lat": 23.6978,
+      "lon": 120.9605
+    },
+    "tanzania": {
+      "lat": -6.369,
+      "lon": 34.8888
+    },
+    "thailand": {
+      "lat": 15.87,
+      "lon": 100.9925
+    },
+    "togo": {
+      "lat": 8.6195,
+      "lon": 0.8248
+    },
+    "turkey": {
+      "lat": 38.9637,
+      "lon": 35.2433
+    },
+    "uganda": {
+      "lat": 1.3733,
+      "lon": 32.2903
+    },
+    "ukraine": {
+      "lat": 48.3794,
+      "lon": 31.1656
+    },
+    "united arab emirates": {
+      "lat": 23.4241,
+      "lon": 53.8478
+    },
+    "united kingdom": {
+      "lat": 55.3781,
+      "lon": -3.436
+    },
+    "united states of america": {
+      "lat": 37.0902,
+      "lon": -95.7129
+    },
+    "united states": {
+      "lat": 37.0902,
+      "lon": -95.7129
+    },
+    "uruguay": {
+      "lat": -32.5228,
+      "lon": -55.7658
+    },
+    "venezuela": {
+      "lat": 6.4238,
+      "lon": -66.5897
+    },
+    "vietnam": {
+      "lat": 14.0583,
+      "lon": 108.2772
+    },
+    "zambia": {
+      "lat": -13.1339,
+      "lon": 27.8493
+    },
+    "zimbabwe": {
+      "lat": -19.0154,
+      "lon": 29.1549
+    },
+    "türkiye": {
+      "lat": 38.9637,
+      "lon": 35.2433
+    }
+  }
+}

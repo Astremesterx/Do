@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production build
+dist/
+build/
+
+# Environment files
+.env.local
+.env.*.local
+*.local
+
+# Cache and build info
+*.tsbuildinfo
+.eslintcache
+
+# Local artifacts & dev sites
+artifacts/
+.sites-local/
+.sites/
+
+# System files
+.DS_Store
+Thumbs.db
