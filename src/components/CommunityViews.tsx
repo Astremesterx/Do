@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react'
 import {
   Bell,
-  BookOpen,
   Check,
   ChevronRight,
   Compass,
@@ -14,6 +13,9 @@ import {
   UserPlus,
   Users,
   LogOut,
+  Map,
+  Route,
+  Sparkles,
 } from 'lucide-react'
 import { format } from 'date-fns'
 import type { EventGenre, PulseEvent } from '../domain'
@@ -745,71 +747,129 @@ export function TourModal({
 }) {
   const [step, setStep] = useState(0),
     seen = useCommunityStore((s) => s.setTourSeen)
-  const slides = [
-      {
-        Icon: Compass,
-        title: 'Make room for a good time.',
-        text: 'Explore nearby happenings, discover other cities, or tune into online events. Filter by date, vibe, price, and the people you follow.',
-      },
-      {
-        Icon: MapPin,
-        title: 'A place for every plan.',
-        text: 'Drop a map pin to host a gathering, choose a location scope, or publish an approximate “I’m free” beacon. Exact meetup instructions can stay behind your local RSVP.',
-      },
-      {
-        Icon: Users,
-        title: 'Find your kind of company.',
-        text: 'Create a local profile, choose interests, follow hosts, and join event conversations. Recording attendance after an event updates your local trust score.',
-      },
-      {
-        Icon: BookOpen,
-        title: 'Let curiosity lead the way.',
-        text: 'Plan a day or two away. DO finds events that fit your vibes and pace, estimates travel, and lets you swap stops and export your calendar.',
-      },
-      {
-        Icon: ShieldCheck,
-        title: 'Yours, wherever you go.',
-        text: 'Your profile, RSVPs, and saved moments are securely protected. Find authentic gatherings, connect with friends, and discover local moments with privacy and trust.',
-      },
-    ],
-    current = slides[step]
+
+  const tutorialSteps = [
+    {
+      step: 1,
+      tag: 'DISCOVER & EXPLORE',
+      title: 'Find Live Happenings Anywhere',
+      Icon: Compass,
+      highlights: [
+        'Explore verified happenings in Bangalore, NYC, Tokyo, Berlin, or London.',
+        'Filter quickly by vibe (Music, Tech, Art, Food), time, free events, and radius.',
+        'Switch to Online Events to tune into virtual gatherings across the globe.',
+      ],
+    },
+    {
+      step: 2,
+      tag: 'INTERACTIVE MAP',
+      title: 'Navigate Venues & Live Beacons',
+      Icon: Map,
+      highlights: [
+        'Click venue pins to check exact timings, entry details, and directions.',
+        'Toggle map layers anytime: Streets, Mono, and Satellite views.',
+        'Turn on an "I’m Free" beacon to let fellow members know you’re around.',
+      ],
+    },
+    {
+      step: 3,
+      tag: 'TRIP PLANNER',
+      title: 'Plan Seamless Days & Weekends',
+      Icon: Route,
+      highlights: [
+        'Auto-generate smart itineraries tailored to your pace and interests.',
+        'Add personal detours or swap stops with nearby alternatives anytime.',
+        'Export your schedule directly to Google Calendar, Apple iCal, or share a link.',
+      ],
+    },
+    {
+      step: 4,
+      tag: 'COMMUNITY & NAVIGATION',
+      title: 'Live Chats & Fast Navigation',
+      Icon: MessageCircle,
+      highlights: [
+        'Join event conversation rooms to chat with hosts and fellow attendees.',
+        'On laptop, move your cursor to the left edge to reveal the hidden sidebar.',
+        'Browse freely as a guest, or create a profile to host and save moments.',
+      ],
+    },
+  ]
+
+  const current = tutorialSteps[step]
   const close = () => {
     seen()
     onClose()
   }
+
   return (
     <Modal
+      className="tour-modal"
       title={current.title}
-      eyebrow={`WELCOME TO DO · ${step + 1} / ${slides.length}`}
+      eyebrow={`QUICK TUTORIAL · STEP ${step + 1} OF ${tutorialSteps.length}`}
       onClose={close}
     >
       <div className="modal-content tour-content">
-        <current.Icon size={52} strokeWidth={1} />
-        <p>{current.text}</p>
+        <div className="tour-header-visual">
+          <div className="tour-icon-wrap">
+            <current.Icon size={22} />
+          </div>
+          <span className="tour-tag-pill">{current.tag}</span>
+        </div>
+
+        <ul className="tour-highlights">
+          {current.highlights.map((text, idx) => (
+            <li key={idx}>
+              <span className="tour-check">
+                <Check size={11} strokeWidth={2.5} />
+              </span>
+              <span>{text}</span>
+            </li>
+          ))}
+        </ul>
+
         <div className="tour-dots">
-          {slides.map((_, index) => (
+          {tutorialSteps.map((_, index) => (
             <button
-              aria-label={`Tour step ${index + 1}`}
-              className={index === step ? 'active' : ''}
               key={index}
+              aria-label={`Step ${index + 1}`}
+              className={index === step ? 'active' : ''}
               onClick={() => setStep(index)}
             />
           ))}
         </div>
-        <div className="button-row">
-          <button className="secondary-button" onClick={step ? () => setStep(step - 1) : close}>
-            {step ? 'Back' : 'Skip tour'}
+
+        <div className="tour-actions">
+          <button className="tour-skip-button" onClick={close}>
+            Skip tutorial
           </button>
-          <button
-            className="primary-button"
-            onClick={step === slides.length - 1 ? close : () => setStep(step + 1)}
-          >
-            {step === slides.length - 1 ? 'Find my next moment' : 'Next'}
-            <ChevronRight size={16} />
-          </button>
+          <div className="tour-nav-buttons">
+            {step > 0 && (
+              <button
+                className="secondary-button tour-back-btn"
+                onClick={() => setStep(step - 1)}
+              >
+                Back
+              </button>
+            )}
+            <button
+              className="primary-button tour-next-btn"
+              onClick={step === tutorialSteps.length - 1 ? close : () => setStep(step + 1)}
+            >
+              {step === tutorialSteps.length - 1 ? (
+                <>
+                  Get started <Sparkles size={14} />
+                </>
+              ) : (
+                <>
+                  Next <ChevronRight size={15} />
+                </>
+              )}
+            </button>
+          </div>
         </div>
+
         {onAdminAccess && (
-          <div style={{ textAlign: 'center', marginTop: '14px' }}>
+          <div style={{ textAlign: 'center', marginTop: '4px' }}>
             <button
               type="button"
               className="tour-admin-link"
@@ -823,7 +883,7 @@ export function TourModal({
                 color: 'var(--ink-muted)',
                 fontSize: '11px',
                 cursor: 'pointer',
-                opacity: 0.5,
+                opacity: 0.45,
               }}
             >
               Site maintenance

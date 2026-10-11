@@ -111,7 +111,17 @@ export default function App() {
     preferences = useCommunityStore((s) => s.preferences),
     following = useCommunityStore((s) => s.following[s.activeId]),
     notifications = useCommunityStore((s) => s.notifications),
-    isAdmin = useCommunityStore((s) => s.isAdmin)
+    isAdmin = useCommunityStore((s) => s.isAdmin),
+    tourSeen = useCommunityStore((s) => s.tourSeen)
+
+  useEffect(() => {
+    if (!tourSeen) {
+      const timer = setTimeout(() => {
+        setDialog('tour')
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [tourSeen])
   const [editingEvent, setEditingEvent] = useState<PulseEvent | undefined>(),
     [hostPoint, setHostPoint] = useState<[number, number] | undefined>(),
     [discussion, setDiscussion] = useState(false)

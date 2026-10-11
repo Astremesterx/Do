@@ -68,6 +68,7 @@ export function Modal({
   onClose,
   wide = false,
   drawer = false,
+  className = '',
 }: {
   title: string
   eyebrow?: string
@@ -75,6 +76,7 @@ export function Modal({
   onClose: () => void
   wide?: boolean
   drawer?: boolean
+  className?: string
 }) {
   const ref = useRef<HTMLDivElement>(null),
     closeRef = useRef(onClose),
@@ -129,7 +131,7 @@ export function Modal({
         aria-modal="true"
         aria-labelledby={id}
         ref={ref}
-        className={`modal ${wide ? 'modal-wide' : ''} ${drawer ? 'drawer' : ''}`}
+        className={`modal ${wide ? 'modal-wide' : ''} ${drawer ? 'drawer' : ''} ${className}`}
       >
         <header className="modal-header">
           <div>

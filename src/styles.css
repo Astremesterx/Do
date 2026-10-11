@@ -7889,37 +7889,162 @@ progress::-moz-progress-bar {
   right: 11px;
   top: 13px;
 }
+.modal.tour-modal {
+  max-width: 420px;
+  width: calc(100vw - 32px);
+  border-radius: 14px;
+}
+.tour-modal .modal-header {
+  padding: 16px 20px 12px;
+}
+.tour-modal .modal-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  margin-top: 4px;
+}
 .tour-content {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+  padding: 16px 20px 20px;
+}
+.tour-header-visual {
+  display: flex;
   align-items: center;
-  gap: 25px;
-  padding-top: 35px;
+  justify-content: space-between;
 }
-.tour-content > p {
-  font-size: 15px;
-  line-height: 1.9;
-  text-align: center;
-  max-width: 390px;
+.tour-icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(var(--rgb-2d2d2d) / 0.05);
+  color: var(--mint);
+  border: 1px solid rgb(var(--rgb-2d2d2d) / 0.08);
 }
-.tour-content .button-row {
-  width: 100%;
+[data-theme='dark'] .tour-icon-wrap {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #48c78e;
+}
+.tour-tag-pill {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 4px 9px;
+  border-radius: 20px;
+  background: rgb(var(--rgb-2d2d2d) / 0.05);
+  color: var(--tone-5d5d5d);
+  border: 1px solid rgb(var(--rgb-2d2d2d) / 0.07);
+}
+[data-theme='dark'] .tour-tag-pill {
+  background: rgba(255, 255, 255, 0.07);
+  color: #a8a8a4;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.tour-highlights {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.tour-highlights li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--tone-2f2f2f);
+}
+[data-theme='dark'] .tour-highlights li {
+  color: #d8d8d4;
+}
+.tour-check {
+  margin-top: 2px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(var(--rgb-2d2d2d) / 0.07);
+  color: var(--mint);
+  flex-shrink: 0;
+}
+[data-theme='dark'] .tour-check {
+  background: rgba(255, 255, 255, 0.1);
+  color: #48c78e;
 }
 .tour-dots {
   display: flex;
-  gap: 7px;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px 0 2px;
 }
 .tour-dots button {
-  height: 6px;
+  height: 5px;
   width: 6px;
   padding: 0;
   border-radius: 50%;
   background: var(--hairline);
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 .tour-dots button.active {
   background: var(--ink);
-  width: 19px;
-  border-radius: 5px;
+  width: 18px;
+  border-radius: 4px;
+}
+[data-theme='dark'] .tour-dots button.active {
+  background: #f0f0f0;
+}
+.tour-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.tour-skip-button {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--tone-70706c);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 4px;
+  transition: color 0.15s ease;
+}
+.tour-skip-button:hover {
+  color: var(--tone-181818);
+  text-decoration: underline;
+}
+[data-theme='dark'] .tour-skip-button:hover {
+  color: #fff;
+}
+.tour-nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tour-back-btn {
+  padding: 7px 12px;
+  font-size: 11px;
+  min-height: 34px;
+}
+.tour-next-btn {
+  padding: 7px 15px;
+  font-size: 11px;
+  min-height: 34px;
+  gap: 5px;
 }
 .scope-grid {
   display: flex;
