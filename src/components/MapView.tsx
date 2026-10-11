@@ -358,12 +358,12 @@ function EventMarkers({
   }, [events, points, bounds, zoom, stops, selected])
 
   const clusters = useMemo(() => {
-    if (stops?.length) {
+    // At city, neighborhood, and street zoom (zoom > 5) or when following an itinerary, show every event at its authentic place
+    if (stops?.length || zoom > 5) {
       return visibleEvents.map((e) => [e])
     }
-    // Dynamic cluster cell size based on zoom level:
-    // When zoomed into street level (zoom >= 17), do not cluster unless coordinates overlap
-    const cellSize = zoom >= 17 ? 20 : 54
+    // Only cluster at macro world / continent view (zoom <= 5) to keep global navigation clear
+    const cellSize = 60
     const groups = new Map<string, PulseEvent[]>()
 
     for (const event of visibleEvents) {

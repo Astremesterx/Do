@@ -144,23 +144,9 @@ export function verifyEvent(input: PulseEvent): { event: PulseEvent; repaired: b
       ) ?? getCity(event.city).districts[0]
     ;[event.latitude, event.longitude] = district.point
   }
-  // Unknown coordinates inside the city box also snap to a known land anchor.
-  const nearby = getCity(event.city).districts.some(
-    (d) =>
-      Math.abs(d.point[0] - event.latitude) < 0.004 &&
-      Math.abs(d.point[1] - event.longitude) < 0.004,
-  )
-  if (!event.isOnline && !nearby) {
-    const nearest = [...getCity(event.city).districts].sort(
-      (a, b) =>
-        Math.hypot(a.point[0] - event.latitude, a.point[1] - event.longitude) -
-        Math.hypot(b.point[0] - event.latitude, b.point[1] - event.longitude),
-    )[0]
-    ;[event.latitude, event.longitude] = nearest.point
-  }
   event.sourceHash = eventHash(event)
   event.isVerified = true
-  const repaired = !event.isOnline && (!valid || !nearby)
+  const repaired = !event.isOnline && !valid
   if (repaired && event.provenance === 'collected') event.locationPrecision = 'city'
   event.verification = {
     score:

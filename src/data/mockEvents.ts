@@ -125,8 +125,33 @@ const genres: EventGenre[] = [
   'business',
   'sports',
 ]
+const VENUE_OFFSETS: [number, number][] = [
+  [0.0028, 0.0035],   // Venue 0: ~380m northeast
+  [-0.0032, 0.0041],  // Venue 1: ~460m southeast
+  [0.0045, -0.0026],  // Venue 2: ~520m northwest
+  [-0.0021, -0.0039], // Venue 3: ~430m southwest
+  [0.0016, 0.0052],   // Venue 4: ~540m east
+  [-0.0054, 0.0018],  // Venue 5: ~610m south
+  [0.0036, -0.0048],  // Venue 6: ~580m northwest
+  [-0.0042, -0.0032], // Venue 7: ~530m southwest
+]
+
+function clampToCityBounds(
+  lat: number,
+  lng: number,
+  bounds: [number, number, number, number],
+): [number, number] {
+  const [minLat, maxLat, minLng, maxLng] = bounds
+  const margin = 0.0015
+  return [
+    Math.max(minLat + margin, Math.min(maxLat - margin, Number(lat.toFixed(6)))),
+    Math.max(minLng + margin, Math.min(maxLng - margin, Number(lng.toFixed(6)))),
+  ]
+}
+
 const hours = ['10:00', '13:30', '16:00', '19:00', '22:00', '09:00', '14:00', '17:00']
 const durations = [90, 105, 90, 120, 150, 90, 105, 90]
+
 export function generateSeedEvents(now = new Date(), cityCount?: number): PulseEvent[] {
   const result: PulseEvent[] = []
   const seedCityIds = [
@@ -210,6 +235,12 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
                 `${district.name} Sports Club`,
               ][i]
             : `${district.name} ${['Kitchen & Lounge', 'Creative Studio', 'Art Gallery', 'Acoustic Sessions', 'Social Club', 'Open Gardens', 'Collective', 'Club House'][i]}`
+        const offset = VENUE_OFFSETS[i % VENUE_OFFSETS.length]
+        const [venueLat, venueLng] = clampToCityBounds(
+          district.point[0] + offset[0],
+          district.point[1] + offset[1],
+          city.bounds,
+        )
         const primary: PulseEvent = {
           id: `seed-${city.id}-${day}-${i}`,
           title: titles[genre][(day + (city.id === 'bangalore' ? 0 : 1)) % 4],
@@ -220,8 +251,8 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
           address: `${venue}, ${district.name}, ${city.name}`,
           city: city.id,
           country: city.country,
-          latitude: district.point[0],
-          longitude: district.point[1],
+          latitude: venueLat,
+          longitude: venueLng,
           startTime,
           endTime: new Date(+new Date(startTime) + durations[i] * 60000).toISOString(),
           imageUrl: PHOTOS[genre],
@@ -250,17 +281,26 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
           state: city.state,
         }
         result.push(primary)
-        if (i === 0 || i === 2)
+        if (i === 0 || i === 2) {
+          const altOffset = i === 0 ? [-0.0018, 0.0024] : [0.0022, -0.0042]
+          const [altLat, altLng] = clampToCityBounds(
+            district.point[0] + altOffset[0],
+            district.point[1] + altOffset[1],
+            city.bounds,
+          )
           result.push({
             ...primary,
             id: `${primary.id}-alternative`,
             title: i === 0 ? 'The neighborhood table' : 'Open studio, open minds',
             venueName: `${district.name} ${i === 0 ? 'Supper Club' : 'Creative Studio'}`,
+            latitude: altLat,
+            longitude: altLng,
             rating: 4.3,
             attendeesCount: 24 + day * 3,
             priceTier: 'free',
             priceAmount: 0,
           })
+        }
       }
     }
     for (let i = 0; i < 4; i++) {
@@ -311,6 +351,11 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
     ).entries()) {
       const district = city.districts[i],
         startTime = zonedISO(addDate(cityDate(now, city.id), 1), '16:00', city.id)
+      const [extraLat, extraLng] = clampToCityBounds(
+        district.point[0] - 0.0018,
+        district.point[1] + 0.0022,
+        city.bounds,
+      )
       result.push({
         id: `seed-extra-${city.id}-${genre}`,
         title: titles[genre][0],
@@ -321,8 +366,8 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
         isOnline: genre === 'gaming',
         venueName: `${district.name} Community Club`,
         address: `${district.name}, ${city.name}`,
-        latitude: district.point[0],
-        longitude: district.point[1],
+        latitude: extraLat,
+        longitude: extraLng,
         startTime,
         endTime: new Date(+new Date(startTime) + 90 * 60000).toISOString(),
         imageUrl: PHOTOS[genre],

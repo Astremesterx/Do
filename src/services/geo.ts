@@ -23,7 +23,7 @@ export function spreadMarkers(events: PulseEvent[]) {
     group
       .sort((a, b) => a.id.localeCompare(b.id))
       .forEach((e, index) => {
-        const r = group.length > 1 ? 0.00018 * (Math.floor(index / 8) + 1) : 0,
+        const r = group.length > 1 ? 0.00007 * (Math.floor(index / 8) + 1) : 0,
           theta = (2 * Math.PI * index) / group.length
         points.set(e.id, [e.latitude + r * Math.cos(theta), e.longitude + r * Math.sin(theta)])
       }),

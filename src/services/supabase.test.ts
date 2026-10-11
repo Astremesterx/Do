@@ -102,7 +102,7 @@ describe('Supabase Integration for DO', () => {
 
     const messages = await messagesService.fetchMessagesForEvent('test-supabase-event-1')
     expect(messages.some((m) => m.id === 'msg-test-1')).toBe(true)
-  })
+  }, 15000)
 
   it('handles trip queries gracefully', async () => {
     const plans = await tripsService.fetchPlans('test-user')
