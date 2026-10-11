@@ -205,11 +205,6 @@ export default function App() {
     }
   }, [purge])
   useEffect(() => {
-    const warning = () =>
-      notify(
-        'Device storage is full or unavailable. Changes remain in memory; download a backup from the console.',
-      )
-    window.addEventListener('do-storage-warning', warning)
     const controller = new AbortController()
     void fetch('/data/collected-events.json', { signal: controller.signal })
       .then(async (response) => {
@@ -239,7 +234,6 @@ export default function App() {
     void useCommunityStore.getState().initAuth().catch(() => {})
 
     return () => {
-      window.removeEventListener('do-storage-warning', warning)
       controller.abort()
     }
   }, [notify])

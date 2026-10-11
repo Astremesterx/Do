@@ -155,6 +155,21 @@ export const useEventsStore = create<EventsState>()(
       name: 'pulse-events-v1',
       storage: browserStorage as never,
       version: 4,
+      partialize: (state) => ({
+        city: state.city,
+        genre: state.genre,
+        time: state.time,
+        date: state.date,
+        radius: state.radius,
+        savedIds: state.savedIds,
+        lastSync: state.lastSync,
+        events: state.events.filter(
+          (e) =>
+            !e.id.startsWith('seed-') &&
+            !e.id.startsWith('online-') &&
+            (e.provenance === 'community' || e.isCustom),
+        ),
+      }),
       migrate: (persisted) => {
         const previous = persisted as Partial<EventsState>
         const refreshed = generateSeedEvents()
@@ -162,7 +177,13 @@ export const useEventsStore = create<EventsState>()(
           (e) => !e.id.startsWith('seed-') && !e.id.startsWith('online-'),
         )
         return {
-          ...previous,
+          city: previous.city ?? 'bangalore',
+          genre: previous.genre ?? 'all',
+          time: previous.time ?? 'all',
+          date: previous.date ?? localDate(),
+          radius: previous.radius ?? 0,
+          savedIds: previous.savedIds ?? [],
+          lastSync: previous.lastSync ?? null,
           events: [...refreshed, ...userCreated],
         }
       },
