@@ -998,4 +998,10 @@ export const GENRES: { id: EventGenre; label: string; short: string; color: stri
   { id: 'gaming', label: 'Gaming & esports', short: 'Gaming', color: '#555555' },
   { id: 'books', label: 'Books & reading', short: 'Books', color: '#555555' },
 ]
-export const genreInfo = (id: EventGenre) => GENRES.find((g) => g.id === id)!
+export const genreInfo = (id: EventGenre) =>
+  GENRES.find((g) => g.id === id) || {
+    id: (id || 'social') as EventGenre,
+    label: 'Community gathering',
+    short: 'Community',
+    color: '#464646',
+  }

@@ -156,56 +156,6 @@ export default function App() {
   const notify = useCallback((message: string) => setToast(message), []),
     closeToast = useCallback(() => setToast(''), [])
 
-  const [sidebarHovered, setSidebarHovered] = useState(false)
-  const sidebarCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  const handleSidebarEnter = useCallback(() => {
-    if (sidebarCloseTimer.current) {
-      clearTimeout(sidebarCloseTimer.current)
-      sidebarCloseTimer.current = null
-    }
-    setSidebarHovered(true)
-  }, [])
-
-  const handleSidebarLeave = useCallback(() => {
-    if (sidebarCloseTimer.current) {
-      clearTimeout(sidebarCloseTimer.current)
-    }
-    sidebarCloseTimer.current = setTimeout(() => {
-      setSidebarHovered(false)
-    }, 220)
-  }, [])
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (window.innerWidth < 769) return
-      // If cursor moves near the left screen edge below the header, reveal sidebar
-      if (e.clientX <= 28 && e.clientY >= 76) {
-        handleSidebarEnter()
-      }
-    }
-    window.addEventListener('mousemove', handleMouseMove, { passive: true })
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [handleSidebarEnter])
-
-  useEffect(() => {
-    if (!sidebarHovered) return
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setSidebarHovered(false)
-      }
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [sidebarHovered])
-
-  useEffect(() => {
-    return () => {
-      if (sidebarCloseTimer.current) {
-        clearTimeout(sidebarCloseTimer.current)
-      }
-    }
-  }, [])
 
   useEffect(() => {
     const handleAdminKey = (e: KeyboardEvent) => {
@@ -978,19 +928,7 @@ export default function App() {
         </div>
       </header>
       <div className="app-body">
-        <div
-          className={`sidebar-dock ${sidebarHovered ? 'is-expanded' : ''}`}
-          onMouseEnter={handleSidebarEnter}
-          onMouseLeave={handleSidebarLeave}
-        >
-          <div
-            className="sidebar-edge-tab"
-            aria-label="Expand navigation"
-            title="Move cursor here or click to open sidebar"
-            onClick={() => setSidebarHovered((prev) => !prev)}
-          >
-            <span className="sidebar-edge-pill" />
-          </div>
+        <div className="sidebar-dock">
           <aside className="sidebar">
             <nav aria-label="Main navigation">
               {(

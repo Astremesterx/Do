@@ -378,106 +378,55 @@ svg {
   font-size: 21px;
 }
 
-/* Laptop / Desktop auto-hiding sidebar dock on cursor hover / edge interaction */
+/* Laptop / Desktop permanent docked sidebar in layout flow (no overlay / no content occlusion) */
 @media (min-width: 769px) {
   .sidebar-dock {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 28px;
-    z-index: 850;
-    pointer-events: auto;
-    transition: width 0.25s ease;
-  }
-
-  .sidebar-dock.is-expanded,
-  .sidebar-dock:hover,
-  .sidebar-dock:focus-within {
+    position: relative;
     width: 78px;
+    min-width: 78px;
+    flex-shrink: 0;
+    display: flex;
+    z-index: 10;
   }
 
   .sidebar-edge-tab {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-left: 3px;
-    cursor: pointer;
-    z-index: 860;
-    user-select: none;
-  }
-
-  .sidebar-edge-pill {
-    width: 4px;
-    height: 48px;
-    border-radius: 0 4px 4px 0;
-    background: var(--tone-70706c);
-    opacity: 0.45;
-    transition: opacity 0.2s ease, height 0.2s ease, background-color 0.2s ease;
-  }
-
-  .sidebar-dock:hover .sidebar-edge-pill,
-  .sidebar-dock.is-expanded .sidebar-edge-pill {
-    opacity: 0;
-    height: 20px;
+    display: none !important;
   }
 
   .sidebar-dock .sidebar {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
+    position: relative;
     width: 78px;
-    transform: translateX(-100%);
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
-    box-shadow: none;
+    min-width: 78px;
+    height: 100%;
+    transform: none !important;
+    box-shadow: none !important;
     background: var(--tone-f4f4f1);
-    z-index: 850;
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 0 17px;
   }
 
   [data-theme='dark'] .sidebar-dock .sidebar {
     background: #141414;
     border-right-color: rgba(255, 255, 255, 0.08);
   }
-
-  .sidebar-dock.is-expanded .sidebar,
-  .sidebar-dock:hover .sidebar,
-  .sidebar-dock:focus-within .sidebar {
-    transform: translateX(0);
-    box-shadow: 6px 0 32px rgba(0, 0, 0, 0.16);
-  }
-
-  [data-theme='dark'] .sidebar-dock.is-expanded .sidebar,
-  [data-theme='dark'] .sidebar-dock:hover .sidebar,
-  [data-theme='dark'] .sidebar-dock:focus-within .sidebar {
-    box-shadow: 6px 0 36px rgba(0, 0, 0, 0.6);
-  }
 }
 
 @media (max-width: 1200px) and (min-width: 769px) {
-  .sidebar-dock.is-expanded,
-  .sidebar-dock:hover,
-  .sidebar-dock:focus-within {
-    width: 65px;
-  }
+  .sidebar-dock,
   .sidebar-dock .sidebar {
     width: 65px;
+    min-width: 65px;
   }
 }
 
 @media (max-width: 800px) and (min-width: 769px) {
-  .sidebar-dock.is-expanded,
-  .sidebar-dock:hover,
-  .sidebar-dock:focus-within {
-    width: 58px;
-  }
+  .sidebar-dock,
   .sidebar-dock .sidebar {
     width: 58px;
+    min-width: 58px;
   }
 }
 
@@ -854,6 +803,8 @@ svg {
   border-radius: 9px;
   overflow: hidden;
   background: var(--tone-f1f1f1);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 166px;
   transition:
     background 0.2s,
     border-color 0.2s;

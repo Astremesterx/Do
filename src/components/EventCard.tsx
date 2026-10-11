@@ -22,9 +22,21 @@ export const EventCard = memo(function EventCard({
   compact?: boolean
   now?: number
 }) {
+  if (!event || !event.id) return null
+
   const saved = useEventsStore((s) => s.savedIds.includes(event.id)),
     toggleSaved = useEventsStore((s) => s.toggleSaved)
   const live = isLive(event, now)
+
+  const timeStr = (() => {
+    try {
+      const res = event.isOnline ? browserTime(event.startTime) : cityTime(event.startTime, event.city)
+      return res || 'Time TBA'
+    } catch {
+      return 'Time TBA'
+    }
+  })()
+
   return (
     <article
       className={`event-card ${selected ? 'event-selected' : ''} ${compact ? 'event-compact' : ''}`}
@@ -32,12 +44,12 @@ export const EventCard = memo(function EventCard({
       <button
         className="event-image-button"
         onClick={() => onSelect(event)}
-        aria-label={`View ${event.title}`}
+        aria-label={`View ${event.title || 'event'}`}
       >
         <EventImage
-          genre={event.genre}
+          genre={event.genre || 'social'}
           src={event.imageUrl}
-          alt={`${event.genre} gathering`}
+          alt={`${event.genre || 'social'} gathering`}
           loading="lazy"
           width="320"
           height="200"
@@ -49,7 +61,14 @@ export const EventCard = memo(function EventCard({
           </span>
         ) : (
           <span className="image-date">
-            {format(new Date(event.startTime), 'MMM d').toUpperCase()}
+            {(() => {
+              try {
+                const d = new Date(event.startTime)
+                return isNaN(d.getTime()) ? 'UPCOMING' : format(d, 'MMM d').toUpperCase()
+              } catch {
+                return 'UPCOMING'
+              }
+            })()}
           </span>
         )}
         <span className="image-shade" />
@@ -63,18 +82,16 @@ export const EventCard = memo(function EventCard({
       </button>
       <div className="event-card-body">
         <div className="event-meta-row">
-          <GenreTag genre={event.genre} />
-          <span className="event-time">
-            {event.isOnline ? browserTime(event.startTime) : cityTime(event.startTime, event.city)}
-          </span>
+          <GenreTag genre={event.genre || 'social'} />
+          <span className="event-time">{timeStr}</span>
         </div>
         <button className="event-title-button" onClick={() => onSelect(event)}>
-          <h3>{event.title}</h3>
+          <h3>{event.title || 'Community Event'}</h3>
           <ArrowUpRight size={17} />
         </button>
         <p className="event-venue">
           {event.isOnline ? <Globe2 size={13} /> : <MapPin size={13} />}{' '}
-          {event.isOnline ? 'Online · join from anywhere' : event.venueName}
+          {event.isOnline ? 'Online · join from anywhere' : (event.venueName || 'Local Venue')}
         </p>
         {event.isOnline && (
           <p className="online-countdown">

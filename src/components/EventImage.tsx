@@ -6,12 +6,14 @@ export function EventImage({
   genre,
   ...props
 }: ImgHTMLAttributes<HTMLImageElement> & { genre: EventGenre }) {
+  const fallback = PHOTOS[genre] || '/images/tech.jpg'
   return (
     <img
       {...props}
       onError={(event) => {
-        if (event.currentTarget.getAttribute('src') !== PHOTOS[genre])
-          event.currentTarget.src = PHOTOS[genre]
+        if (event.currentTarget.getAttribute('src') !== fallback) {
+          event.currentTarget.src = fallback
+        }
       }}
     />
   )

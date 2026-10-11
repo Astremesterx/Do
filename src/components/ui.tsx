@@ -21,24 +21,25 @@ import type { EventGenre } from '../domain'
 import { genreInfo } from '../data/cities'
 
 export function GenreIcon({ genre, size = 16 }: { genre: EventGenre; size?: number }) {
-  const Icon = {
-    tech: Code2,
-    music: Music2,
-    nightlife: PartyPopper,
-    food: Coffee,
-    art: Palette,
-    sports: Trophy,
-    business: BriefcaseBusiness,
-    outdoor: Trees,
-    social: Users,
-    photography: Camera,
-    gaming: Gamepad2,
-    books: BookOpen,
-  }[genre]
+  const Icon =
+    ({
+      tech: Code2,
+      music: Music2,
+      nightlife: PartyPopper,
+      food: Coffee,
+      art: Palette,
+      sports: Trophy,
+      business: BriefcaseBusiness,
+      outdoor: Trees,
+      social: Users,
+      photography: Camera,
+      gaming: Gamepad2,
+      books: BookOpen,
+    } as Record<string, typeof Code2>)[genre] || Compass
   return <Icon size={size} strokeWidth={1.8} />
 }
 export function GenreTag({ genre }: { genre: EventGenre }) {
-  const info = genreInfo(genre)
+  const info = genreInfo(genre) || { color: '#464646', short: 'Community' }
   return (
     <span className="genre-tag" style={{ color: info.color, background: `${info.color}15` }}>
       <GenreIcon genre={genre} size={12} />
@@ -47,17 +48,18 @@ export function GenreTag({ genre }: { genre: EventGenre }) {
   )
 }
 export function Avatar({
-  name,
+  name = 'U',
   size = 'small',
   color = 0,
 }: {
-  name: string
+  name?: string
   size?: 'small' | 'large'
   color?: number
 }) {
+  const safeName = (name || 'U').trim()
   return (
-    <span className={`avatar avatar-${size} avatar-${color % 4}`} aria-label={name}>
-      {name.slice(0, 1).toUpperCase()}
+    <span className={`avatar avatar-${size} avatar-${color % 4}`} aria-label={safeName}>
+      {(safeName.slice(0, 1) || 'U').toUpperCase()}
     </span>
   )
 }

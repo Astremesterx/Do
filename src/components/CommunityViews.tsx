@@ -755,7 +755,7 @@ export function TourModal({
       title: 'Find Live Happenings Anywhere',
       Icon: Compass,
       highlights: [
-        'Explore verified happenings in Bangalore, NYC, Tokyo, Berlin, or London.',
+        'Explore verified happenings all over the world and nearby surroundings.',
         'Filter quickly by vibe (Music, Tech, Art, Food), time, free events, and radius.',
         'Switch to Online Events to tune into virtual gatherings across the globe.',
       ],
@@ -763,12 +763,12 @@ export function TourModal({
     {
       step: 2,
       tag: 'INTERACTIVE MAP',
-      title: 'Navigate Venues & Live Beacons',
+      title: 'Navigate Venues & Explore the Map',
       Icon: Map,
       highlights: [
         'Click venue pins to check exact timings, entry details, and directions.',
         'Toggle map layers anytime: Streets, Mono, and Satellite views.',
-        'Turn on an "I’m Free" beacon to let fellow members know you’re around.',
+        'Use "Locate me" to find nearby events or maximize the map for full-screen exploration.',
       ],
     },
     {
@@ -789,7 +789,7 @@ export function TourModal({
       Icon: MessageCircle,
       highlights: [
         'Join event conversation rooms to chat with hosts and fellow attendees.',
-        'On laptop, move your cursor to the left edge to reveal the hidden sidebar.',
+        'Use the left sidebar navigation to switch seamlessly between Explore, Trips, Chats, and Saved.',
         'Browse freely as a guest, or create a profile to host and save moments.',
       ],
     },
