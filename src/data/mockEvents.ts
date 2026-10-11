@@ -3,6 +3,7 @@ import { CITIES } from './cities'
 import { isSameDay } from 'date-fns'
 import { addDate, cityDate, zonedISO } from '../services/time'
 import { verifyAndDeduplicate } from '../services/eventTruthVerifier'
+import { buildExactEventUrl } from '../services/eventUrls'
 
 export const PHOTOS: Record<EventGenre, string> = {
   music: '/images/music.jpg',
@@ -241,9 +242,20 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
           district.point[1] + offset[1],
           city.bounds,
         )
+        const platform = ['Luma', 'Meetup', 'Eventbrite', 'Local venues'][i % 4]
+        const eventTitle = titles[genre][(day + (city.id === 'bangalore' ? 0 : 1)) % 4]
+        const exactRegistrationUrl = buildExactEventUrl({
+          platform,
+          title: eventTitle,
+          cityId: city.id,
+          venueName: venue,
+          genre,
+          seedKey: `seed-${city.id}-${day}-${i}`,
+          isOnline: false,
+        })
         const primary: PulseEvent = {
           id: `seed-${city.id}-${day}-${i}`,
-          title: titles[genre][(day + (city.id === 'bangalore' ? 0 : 1)) % 4],
+          title: eventTitle,
           description: descriptions[genre],
           genre,
           isOnline: false,
@@ -256,11 +268,11 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
           startTime,
           endTime: new Date(+new Date(startTime) + durations[i] * 60000).toISOString(),
           imageUrl: PHOTOS[genre],
-          registrationUrl: `https://www.eventbrite.com/d/${city.country === 'India' ? 'india--bangalore' : city.id === 'tokyo' ? 'japan--tokyo' : city.id === 'berlin' ? 'germany--berlin' : city.id === 'barcelona' ? 'spain--barcelona' : 'ca--san-francisco'}/events/`,
+          registrationUrl: exactRegistrationUrl,
           priceTier: free ? 'free' : 'paid',
           priceAmount: free ? 0 : basePrice * rate,
           currency: city.currency,
-          sourcePlatform: ['Luma', 'Meetup', 'Eventbrite', 'Local venues'][i % 4],
+          sourcePlatform: platform,
           sourceHash: '',
           isVerified: true,
           attendeesCount: 18 + ((day * 13 + i * 29) % 240),
@@ -288,17 +300,31 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
             district.point[1] + altOffset[1],
             city.bounds,
           )
+          const altTitle = i === 0 ? 'The neighborhood table' : 'Open studio, open minds'
+          const altVenue = `${district.name} ${i === 0 ? 'Supper Club' : 'Creative Studio'}`
+          const altPlatform = i === 0 ? 'Luma' : 'Local venues'
+          const altUrl = buildExactEventUrl({
+            platform: altPlatform,
+            title: altTitle,
+            cityId: city.id,
+            venueName: altVenue,
+            genre,
+            seedKey: `${primary.id}-alternative`,
+            isOnline: false,
+          })
           result.push({
             ...primary,
             id: `${primary.id}-alternative`,
-            title: i === 0 ? 'The neighborhood table' : 'Open studio, open minds',
-            venueName: `${district.name} ${i === 0 ? 'Supper Club' : 'Creative Studio'}`,
+            title: altTitle,
+            venueName: altVenue,
             latitude: altLat,
             longitude: altLng,
             rating: 4.3,
             attendeesCount: 24 + day * 3,
             priceTier: 'free',
             priceAmount: 0,
+            sourcePlatform: altPlatform,
+            registrationUrl: altUrl,
           })
         }
       }
@@ -308,14 +334,23 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
         i === 0
           ? new Date(+now - 15 * 60000).toISOString()
           : new Date(+now + i * 90 * 60000).toISOString()
+      const onlineTitle = [
+        'AI without the hype: a live conversation',
+        'Design systems, human stories',
+        'Build your first creative AI tool',
+        'Independent artists, global stage',
+      ][i]
+      const onlineUrl = buildExactEventUrl({
+        platform: 'Luma',
+        title: onlineTitle,
+        cityId: city.id,
+        genre: i === 3 ? 'music' : 'tech',
+        seedKey: `online-${city.id}-${i}`,
+        isOnline: true,
+      })
       result.push({
         id: `online-${city.id}-${i}`,
-        title: [
-          'AI without the hype: a live conversation',
-          'Design systems, human stories',
-          'Build your first creative AI tool',
-          'Independent artists, global stage',
-        ][i],
+        title: onlineTitle,
         description:
           'Join a thoughtful global community for a live online session. Bring your questions, share your perspective, and meet people who are curious about the same things. A replay will be shared with registered attendees.',
         genre: i === 3 ? 'music' : 'tech',
@@ -329,7 +364,7 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
         startTime,
         endTime: new Date(+new Date(startTime) + 90 * 60000).toISOString(),
         imageUrl: PHOTOS[i === 3 ? 'music' : 'tech'],
-        registrationUrl: 'https://lu.ma/online',
+        registrationUrl: onlineUrl,
         priceTier: 'free',
         priceAmount: 0,
         currency: city.currency,
@@ -356,26 +391,38 @@ export function generateSeedEvents(now = new Date(), cityCount?: number): PulseE
         district.point[1] + 0.0022,
         city.bounds,
       )
+      const extraTitle = titles[genre][0]
+      const extraVenue = `${district.name} Community Club`
+      const extraPlatform = genre === 'gaming' ? 'Luma' : 'Meetup'
+      const extraUrl = buildExactEventUrl({
+        platform: extraPlatform,
+        title: extraTitle,
+        cityId: city.id,
+        venueName: extraVenue,
+        genre,
+        seedKey: `seed-extra-${city.id}-${genre}`,
+        isOnline: genre === 'gaming',
+      })
       result.push({
         id: `seed-extra-${city.id}-${genre}`,
-        title: titles[genre][0],
+        title: extraTitle,
         description: descriptions[genre],
         genre,
         city: city.id,
         country: city.country,
         isOnline: genre === 'gaming',
-        venueName: `${district.name} Community Club`,
+        venueName: extraVenue,
         address: `${district.name}, ${city.name}`,
         latitude: extraLat,
         longitude: extraLng,
         startTime,
         endTime: new Date(+new Date(startTime) + 90 * 60000).toISOString(),
         imageUrl: PHOTOS[genre],
-        registrationUrl: '',
+        registrationUrl: extraUrl,
         priceTier: 'free',
         priceAmount: 0,
         currency: city.currency,
-        sourcePlatform: 'Community',
+        sourcePlatform: extraPlatform,
         sourceHash: '',
         isVerified: true,
         rating: 4.8,

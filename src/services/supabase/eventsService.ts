@@ -3,6 +3,7 @@ import type { Json } from './types'
 import type { EventGenre, PriceTier, PulseEvent } from '../../domain'
 import { verifyEvent } from '../eventTruthVerifier'
 import { GENRES, getCity } from '../../data/cities'
+import { buildExactEventUrl, isGenericDirectoryUrl } from '../eventUrls'
 
 const KNOWN_GENRES = new Set<string>(GENRES.map((g) => g.id))
 
@@ -103,12 +104,25 @@ export const eventsService = {
             startTime,
             endTime,
             imageUrl: row.image_url || row.media_url || '/images/tech.jpg',
-            registrationUrl:
-              row.registration_url && row.registration_url.startsWith('https://')
-                ? row.registration_url
-                : row.source_url && row.source_url.startsWith('https://')
-                  ? row.source_url
-                  : 'https://example.com/register',
+            registrationUrl: (() => {
+              const raw = (
+                row.registration_url && row.registration_url.startsWith('https://')
+                  ? row.registration_url
+                  : row.source_url && row.source_url.startsWith('https://')
+                    ? row.source_url
+                    : ''
+              ).trim()
+              if (raw && !isGenericDirectoryUrl(raw)) return raw
+              return buildExactEventUrl({
+                platform: row.source_platform || 'Luma',
+                title: row.title || 'Community Event',
+                cityId: recognizedCity,
+                venueName: row.venue_name || row.location,
+                genre: normalizeGenre(row.genre || row.category),
+                seedKey: row.id,
+                isOnline,
+              })
+            })(),
             priceTier: (row.price_tier || (row.is_paid ? 'paid' : 'free')) as PriceTier,
             priceAmount: Number(row.price_amount ?? row.price ?? 0),
             priceKnown: row.price_known ?? true,

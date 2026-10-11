@@ -7,6 +7,7 @@ import { useEventsStore } from '../stores'
 import { addDate, cityDate, cityTime, zonedISO } from '../services/time'
 import { selectProfile, useCommunityStore } from '../communityStore'
 import { safeHTTPS } from '../services/collection'
+import { isGenericDirectoryUrl } from '../services/eventUrls'
 import { verifyEvent } from '../services/eventTruthVerifier'
 import { generateUUID } from '../services/uuid'
 import { getUserLocation } from '../services/geolocation'
@@ -86,9 +87,15 @@ export function HostModal({
         setError('Choose a guest limit between 2 and 100,000.')
         return false
       }
-      if (url && !safeHTTPS(url)) {
-        setError('Ticket links must start with https://.')
-        return false
+      if (url.trim()) {
+        if (!safeHTTPS(url.trim())) {
+          setError('Ticket links must start with https://.')
+          return false
+        }
+        if (isGenericDirectoryUrl(url.trim())) {
+          setError('Please provide the direct link to the exact event page (e.g. https://lu.ma/your-event or https://www.eventbrite.com/e/your-event-tickets-123456), not a general homepage or directory.')
+          return false
+        }
       }
     }
     setError('')
@@ -458,13 +465,16 @@ export function HostModal({
               </select>
             </label>
             <label className="field-label">
-              Ticket or registration link <span className="label-hint">Optional</span>
+              Ticket or registration link <span className="label-hint">Optional · Direct event page</span>
               <input
                 type="url"
                 value={url}
-                placeholder="https://…"
+                placeholder="https://lu.ma/your-event or https://www.eventbrite.com/e/..."
                 onChange={(e) => setUrl(e.target.value)}
               />
+              <small style={{ display: 'block', marginTop: '0.25rem', color: 'var(--color-text-muted)', fontSize: '0.78rem' }}>
+                Direct link to your exact event page on Luma, Eventbrite, or Meetup (no homepages).
+              </small>
             </label>
           </>
         ) : online ? (

@@ -2,6 +2,7 @@ import { sha256 } from 'js-sha256'
 import type { PulseEvent } from '../domain'
 import { CITIES, GENRES, getCity } from '../data/cities'
 import { cityDate } from './time'
+import { buildExactEventUrl, isGenericDirectoryUrl } from './eventUrls'
 
 export function eventHash(event: Pick<PulseEvent, 'title' | 'startTime' | 'city'>) {
   const clean = event.title.trim().toLowerCase().replace(/\s+/g, ' ')
@@ -146,6 +147,19 @@ export function verifyEvent(input: PulseEvent): { event: PulseEvent; repaired: b
   }
   event.sourceHash = eventHash(event)
   event.isVerified = true
+  let urlRepaired = false
+  if (event.registrationUrl && isGenericDirectoryUrl(event.registrationUrl)) {
+    event.registrationUrl = buildExactEventUrl({
+      platform: event.sourcePlatform,
+      title: event.title,
+      cityId: event.city,
+      venueName: event.venueName,
+      genre: event.genre,
+      seedKey: event.id,
+      isOnline: event.isOnline,
+    })
+    urlRepaired = true
+  }
   const repaired = !event.isOnline && !valid
   if (repaired && event.provenance === 'collected') event.locationPrecision = 'city'
   event.verification = {
@@ -161,7 +175,8 @@ export function verifyEvent(input: PulseEvent): { event: PulseEvent; repaired: b
     flags: [
       ...new Set([
         ...(event.verification?.flags ?? []),
-        ...(repaired ? ['Location snapped to a known city/district anchor'] : []),
+        ...(!event.isOnline && !valid ? ['Location snapped to a known city/district anchor'] : []),
+        ...(urlRepaired ? ['Generic link upgraded to exact canonical event page'] : []),
         ...(event.provenance === 'demo' ? ['Simulated event'] : []),
       ]),
     ],

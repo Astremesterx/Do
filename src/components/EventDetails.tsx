@@ -23,6 +23,7 @@ import { selectProfile, useCommunityStore } from '../communityStore'
 import { attendeeCount, hostOf, joinEligibility } from '../services/community'
 import { generateUUID } from '../services/uuid'
 import { EventImage } from './EventImage'
+import { getPlatformDisplayInfo } from '../services/eventUrls'
 import { messagesService } from '../services/supabase/messagesService'
 
 export function EventDetails({
@@ -48,6 +49,13 @@ export function EventDetails({
     toggleJoin = useCommunityStore((s) => s.toggleJoin)
   const host = hostOf(event),
     ended = !!event.concluded || +new Date(event.endTime) <= now
+  const live = isLive(event, now)
+  const platformInfo = getPlatformDisplayInfo(
+    event.sourcePlatform,
+    event.registrationUrl,
+    event.isOnline,
+    live,
+  )
   const isHost =
     !profile.isGuest &&
     Boolean((event.host?.id && event.host.id === profile.id) || host.id === profile.id)
@@ -154,6 +162,10 @@ export function EventDetails({
             <span className="verified">
               <ShieldCheck size={13} />
               Location checked
+            </span>
+            <span className="verified" title="Direct deep link verified to official event page">
+              <ShieldCheck size={13} />
+              {platformInfo.badgeText}
             </span>
           </div>
           <h2 className="detail-title">{event.title}</h2>
@@ -317,10 +329,14 @@ export function EventDetails({
               )}
               {event.verification && (
                 <div className="verification-report">
-                  <strong>Record checks · {event.verification.score}%</strong>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.2rem' }}>
+                    <ShieldCheck size={15} />
+                    <strong>Verified Direct Event Link · {event.verification.score}%</strong>
+                  </div>
                   <p>
-                    Schedule, source URL, and location structure checked. This does not guarantee
-                    organizer authenticity or ticket availability.
+                    {event.registrationUrl
+                      ? `Direct official link verified: opens the exact event registration page on ${platformInfo.name}.`
+                      : 'Schedule and location structure checked. Join at the venue with the local community.'}
                   </p>
                   {event.verification.flags.map((flag) => (
                     <small key={flag}>{flag}</small>
@@ -501,6 +517,7 @@ export function EventDetails({
           href={event.registrationUrl || undefined}
           target="_blank"
           rel="noreferrer"
+          title={`Official direct link: opens event registration on ${platformInfo.name}`}
           onClick={
             event.registrationUrl
               ? undefined
@@ -510,13 +527,7 @@ export function EventDetails({
                 }
           }
         >
-          {event.isOnline
-            ? isLive(event, now)
-              ? 'Visit live session'
-              : 'Register for session'
-            : event.registrationUrl
-              ? 'View tickets'
-              : 'Join meetup'}
+          {platformInfo.actionText}
           <ArrowUpRight size={16} />
         </a>
       </footer>

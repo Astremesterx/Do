@@ -3,6 +3,7 @@ import { CITIES } from '../data/cities'
 import { generateSeedEvents } from '../data/mockEvents'
 import { verifyAndDeduplicate } from './eventTruthVerifier'
 import { addDate, cityDate, zonedISO } from './time'
+import { buildExactEventUrl } from './eventUrls'
 
 export interface ScraperAdapter {
   name: string
@@ -37,11 +38,22 @@ export const adapters: ScraperAdapter[] = [
         '13:30',
         e.city,
       )
+      const title = `${e.title} — ${['community session', 'local collective', 'weekend special', 'buildathon edition', 'neighborhood edition'][index]}`
+      const registrationUrl = buildExactEventUrl({
+        platform: name,
+        title,
+        cityId: e.city,
+        venueName: e.venueName,
+        genre: e.genre,
+        seedKey: `ingested-${index}-${e.city}`,
+        isOnline: false,
+      })
       return {
         ...e,
         id: `ingested-${index}-${e.city}-${startTime.slice(0, 10)}`,
-        title: `${e.title} — ${['community session', 'local collective', 'weekend special', 'buildathon edition', 'neighborhood edition'][index]}`,
+        title,
         sourcePlatform: name,
+        registrationUrl,
         startTime,
         endTime: new Date(+new Date(startTime) + 90 * 60000).toISOString(),
         latitude: i === 0 ? 0 : e.latitude,

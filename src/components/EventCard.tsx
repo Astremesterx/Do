@@ -7,6 +7,7 @@ import { Avatar, GenreTag } from './ui'
 import { useEventsStore } from '../stores'
 import { format } from 'date-fns'
 import { EventImage } from './EventImage'
+import { getPlatformDisplayInfo } from '../services/eventUrls'
 
 export const EventCard = memo(function EventCard({
   event,
@@ -102,8 +103,13 @@ export const EventCard = memo(function EventCard({
         {event.isOnline && (
           <div className="online-card-actions">
             {event.registrationUrl ? (
-              <a href={event.registrationUrl} target="_blank" rel="noreferrer">
-                {live ? 'View live session' : 'Register for session'}
+              <a
+                href={event.registrationUrl}
+                target="_blank"
+                rel="noreferrer"
+                title={`Open official direct event page on ${getPlatformDisplayInfo(event.sourcePlatform, event.registrationUrl, true, live).name}`}
+              >
+                {getPlatformDisplayInfo(event.sourcePlatform, event.registrationUrl, true, live).actionText}
                 <ArrowUpRight size={13} />
               </a>
             ) : (
