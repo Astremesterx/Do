@@ -302,6 +302,7 @@ svg {
   display: flex;
   flex: 1;
   min-height: 0;
+  position: relative;
 }
 .sidebar {
   display: flex;
@@ -375,6 +376,75 @@ svg {
 .sidebar-tiny-pulse {
   color: var(--mint);
   font-size: 21px;
+}
+
+/* Laptop / Desktop auto-hiding sidebar on cursor hover */
+@media (min-width: 769px) and (hover: hover) {
+  .sidebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 850;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease;
+    transition-delay: 0.12s;
+    box-shadow: none;
+    background: var(--tone-f4f4f1);
+  }
+
+  [data-theme='dark'] .sidebar {
+    background: #141414;
+    border-right-color: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Extended invisible hit sensor strip on the left edge */
+  .sidebar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 100%;
+    width: 20px;
+    background: transparent;
+    cursor: pointer;
+    pointer-events: auto;
+    z-index: 10;
+  }
+
+  /* Subtle vertical edge pill indicator when collapsed */
+  .sidebar::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 44px;
+    border-radius: 0 4px 4px 0;
+    background: var(--tone-70706c);
+    opacity: 0.35;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+  }
+
+  .sidebar:hover::before,
+  .sidebar:focus-within::before {
+    opacity: 0;
+    transform: translateY(-50%) scaleY(0.5);
+  }
+
+  .sidebar:hover,
+  .sidebar:focus-within {
+    transform: translateX(0);
+    transition-delay: 0s;
+    box-shadow: 6px 0 32px rgba(0, 0, 0, 0.16);
+  }
+
+  [data-theme='dark'] .sidebar:hover,
+  [data-theme='dark'] .sidebar:focus-within {
+    box-shadow: 6px 0 36px rgba(0, 0, 0, 0.6);
+  }
 }
 .main-area {
   min-width: 0;
