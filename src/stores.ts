@@ -77,7 +77,7 @@ export const useEventsStore = create<EventsState>()(
           const deduped = verifyAndDeduplicate(events, refreshed).events
           // Ensure any newly added community or user-hosted events are persisted to Supabase
           events
-            .filter((e) => !e.id.startsWith('seed-'))
+            .filter((e) => (e.provenance === 'community' || e.isCustom) && !e.id.startsWith('seed-') && !e.id.startsWith('online-'))
             .forEach((e) => {
               eventsService.upsertEvent(e).catch(() => {})
             })

@@ -1,13 +1,18 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from './types'
 
+const env =
+  typeof import.meta !== 'undefined' && import.meta.env
+    ? (import.meta.env as Record<string, string | undefined>)
+    : {}
+
 const supabaseUrl =
-  import.meta.env.VITE_SUPABASE_URL ||
+  env.VITE_SUPABASE_URL ||
   'https://wvmczeizdehapojpzgoz.supabase.co'
 
 const supabaseAnonKey =
-  import.meta.env.VITE_SUPABASE_ANON_KEY ||
-  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+  env.VITE_SUPABASE_ANON_KEY ||
+  env.VITE_SUPABASE_PUBLISHABLE_KEY ||
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind2bWN6ZWl6ZGVoYXBvanB6Z296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2NDg3MTgsImV4cCI6MjEwNzIyNDcxOH0.oz1KplLFkpkL5p78vV9Vcu6AHqrjro9TtTrQvLKXwG0'
 
 export const isSupabaseConfigured = (): boolean => {

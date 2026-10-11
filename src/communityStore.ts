@@ -12,6 +12,7 @@ import { browserStorage } from './services/persistence'
 import { attendeeCount, hostOf, joinEligibility, reviewTrustDelta } from './services/community'
 import { useSocialStore } from './stores'
 import { communityService, eventsService, authService } from './services/supabase'
+import { generateUUID } from './services/uuid'
 
 const initial: LocalProfile = {
   id: 'you',
@@ -273,7 +274,7 @@ export const useCommunityStore = create<CommunityState>()(
       },
       saveProfile: (value, createNew = false) => {
         if (get().activeId === 'guest' && !createNew) return
-        const id = createNew ? crypto.randomUUID() : get().activeId
+        const id = createNew ? generateUUID() : get().activeId
         const old = createNew
           ? { ...initial, id, trustScore: 100 }
           : get().profiles.find((p) => p.id === id)!

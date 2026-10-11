@@ -1562,6 +1562,8 @@ export default function App() {
                       isMaximized={maximizedMap}
                       searchTarget={searchTarget}
                       onClearSearchTarget={() => setSearchTarget(null)}
+                      activeMobileView={mobileView}
+                      isVisible={mobileView === 'map' || maximizedMap}
                       onToggleMaximize={() => {
                         setMaximizedMap((prev) => {
                           const next = !prev

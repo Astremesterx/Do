@@ -4,6 +4,7 @@ import { selectProfile, useCommunityStore } from '../communityStore'
 import { useEventsStore } from '../stores'
 import { CITIES, getCity } from '../data/cities'
 import { getUserLocation } from '../services/geolocation'
+import { haversine } from '../services/geo'
 import { Modal } from './ui'
 
 export function DiscoveryControls({ onClose }: { onClose: () => void }) {
@@ -21,8 +22,20 @@ export function DiscoveryControls({ onClose }: { onClose: () => void }) {
     setError('')
     try {
       const origin = await getUserLocation()
+      let closestCity = CITIES[0]
+      let closestDist = Infinity
+      for (const c of CITIES) {
+        const d = haversine(
+          { latitude: c.center[0], longitude: c.center[1] },
+          { latitude: origin[0], longitude: origin[1] },
+        )
+        if (d < closestDist) {
+          closestDist = d
+          closestCity = c
+        }
+      }
       update({ origin, scope: 'nearby' })
-      setFilter({ radius: radius || 10 })
+      setFilter({ city: closestCity.id, radius: radius || 25 })
     } catch {
       setError('Location access was unavailable. You can use the selected city’s center instead.')
     } finally {

@@ -42,6 +42,8 @@ function MapController({
   origin,
   isMaximized,
   searchTarget,
+  activeMobileView,
+  isVisible,
 }: {
   city: string
   selected: PulseEvent | null
@@ -51,6 +53,8 @@ function MapController({
   origin?: [number, number]
   isMaximized?: boolean
   searchTarget?: { point: [number, number]; label?: string; zoom?: number } | null
+  activeMobileView?: 'map' | 'list'
+  isVisible?: boolean
 }) {
   const map = useMap(),
     joined = useSocialStore((s) => s.goingIds)
@@ -62,21 +66,42 @@ function MapController({
   const isFirstMountRef = useRef(true)
 
   useEffect(() => {
-    const t = setTimeout(() => {
+    const handleInvalidate = () => {
       map.invalidateSize({ pan: false, debounceMoveend: true })
-    }, 60)
-    return () => clearTimeout(t)
-  }, [isMaximized, map])
+    }
+    const t1 = setTimeout(handleInvalidate, 50)
+    const t2 = setTimeout(handleInvalidate, 200)
+    return () => {
+      clearTimeout(t1)
+      clearTimeout(t2)
+    }
+  }, [isMaximized, activeMobileView, isVisible, map])
 
   useEffect(() => {
     const container = map.getContainer()
+    let prevW = container.clientWidth
+    let prevH = container.clientHeight
+
     const handleResize = () => {
+      const w = container.clientWidth
+      const h = container.clientHeight
       map.invalidateSize({ pan: false, debounceMoveend: true })
+
+      if ((!prevW || !prevH) && w > 0 && h > 0) {
+        if (city === 'all' || scope === 'global' || searchTarget?.label === 'Worldwide') {
+          map.setView([20, 0], 2.2, { animate: false })
+        } else {
+          const target = origin ?? getCity(city).mapCenter
+          map.setView(target, 13, { animate: false })
+        }
+      }
+      prevW = w
+      prevH = h
     }
     const observer = new ResizeObserver(handleResize)
     observer.observe(container)
     return () => observer.disconnect()
-  }, [map])
+  }, [map, city, scope, origin, searchTarget])
 
   useEffect(() => {
     const container = map.getContainer()
@@ -139,7 +164,7 @@ function MapController({
       if (!isFirst && !reduced) map.flyTo(target, zoom, { duration: 0.7 })
       else map.setView(target, zoom, { animate: false })
     }
-  }, [city, selected, stops, map, scope, origin, joined, searchTarget])
+  }, [city, selected, stops, map, scope, origin, joined, searchTarget, activeMobileView, isVisible])
   return null
 }
 function MapControls({
@@ -244,6 +269,8 @@ export interface MapViewProps {
   onToggleMaximize?: () => void
   searchTarget?: { point: [number, number]; label?: string; zoom?: number } | null
   onClearSearchTarget?: () => void
+  activeMobileView?: 'map' | 'list'
+  isVisible?: boolean
 }
 const clusterIconCache = new Map<number, L.DivIcon>()
 function getClusterIcon(count: number): L.DivIcon {
@@ -281,6 +308,25 @@ function EventMarkers({
     profile = useCommunityStore(selectProfile),
     joined = useSocialStore((s) => s.goingIds)
 
+  useEffect(() => {
+    const update = () => {
+      const b = map.getBounds()
+      if (b && b.isValid()) setBounds(b)
+      setZoom(map.getZoom())
+    }
+    map.on('resize', update)
+    map.on('viewreset', update)
+    map.on('moveend', update)
+    map.on('zoomend', update)
+    map.whenReady(update)
+    return () => {
+      map.off('resize', update)
+      map.off('viewreset', update)
+      map.off('moveend', update)
+      map.off('zoomend', update)
+    }
+  }, [map])
+
   useMapEvents({
     moveend: () => {
       setBounds(map.getBounds())
@@ -294,7 +340,15 @@ function EventMarkers({
 
   // Viewport culling: only process events within or near the visible map bounds (plus 40% margin)
   const visibleEvents = useMemo(() => {
-    if (zoom <= 4 || stops?.length) return events
+    if (
+      zoom <= 4 ||
+      stops?.length ||
+      !bounds ||
+      !bounds.isValid() ||
+      bounds.getNorthEast().equals(bounds.getSouthWest())
+    ) {
+      return events
+    }
     const padded = bounds.pad(0.4)
     return events.filter((e) => {
       if (selected && e.id === selected.id) return true
@@ -422,6 +476,8 @@ export const MapView = memo(function MapView({
   onToggleMaximize,
   searchTarget,
   onClearSearchTarget,
+  activeMobileView,
+  isVisible,
 }: MapViewProps) {
   const [legend, setLegend] = useState(false),
     [tileError, setTileError] = useState(false)
@@ -526,6 +582,8 @@ export const MapView = memo(function MapView({
           origin={origin}
           isMaximized={isMaximized}
           searchTarget={searchTarget}
+          activeMobileView={activeMobileView}
+          isVisible={isVisible}
         />
         <MapControls
           city={city}

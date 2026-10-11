@@ -45,15 +45,20 @@ export const eventsService = {
       for (const row of data) {
         try {
           if (row.raw_data && typeof row.raw_data === 'object' && 'title' in row.raw_data) {
-            const raw = row.raw_data as unknown as PulseEvent
-            const verified = verifyEvent(raw)
-            events.push(verified.event)
-            continue
+            try {
+              const raw = row.raw_data as unknown as PulseEvent
+              const verified = verifyEvent(raw)
+              events.push(verified.event)
+              continue
+            } catch {
+              // Raw data failed strict verification; proceed to map safely below
+            }
           }
 
           // Map legacy or external rows to PulseEvent
-          const cityId = (row.city || row.district || 'kozhikode').toLowerCase().replace(/\s+/g, '-')
-          const recognizedCity = getCity(cityId).id
+          const cityQuery = (row.city || row.district || 'kozhikode').toString()
+          const recognizedCity = getCity(cityQuery.toLowerCase().replace(/\s+/g, '-')).id
+          const targetCityObj = getCity(recognizedCity)
           const isOnline = Boolean(
             row.is_online ||
               row.location?.toLowerCase().includes('online') ||
@@ -76,6 +81,13 @@ export const eventsService = {
             endTime = new Date(+new Date(startTime) + 7200000).toISOString()
           }
 
+          let lat = Number(row.latitude)
+          let lng = Number(row.longitude)
+          if (!Number.isFinite(lat) || !Number.isFinite(lng) || (lat === 0 && lng === 0 && !isOnline)) {
+            lat = targetCityObj.center[0]
+            lng = targetCityObj.center[1]
+          }
+
           const candidate: PulseEvent = {
             id: row.id,
             title: row.title || 'Untitled Event',
@@ -85,9 +97,9 @@ export const eventsService = {
             venueName: row.venue_name || row.exact_venue || row.location || 'Local Venue',
             address: row.address || row.location || 'Venue Address',
             city: recognizedCity,
-            country: row.country || 'India',
-            latitude: Number(row.latitude) || 11.2588,
-            longitude: Number(row.longitude) || 75.7804,
+            country: row.country || targetCityObj.country || 'India',
+            latitude: lat,
+            longitude: lng,
             startTime,
             endTime,
             imageUrl: row.image_url || row.media_url || '/images/tech.jpg',
@@ -100,7 +112,7 @@ export const eventsService = {
             priceTier: (row.price_tier || (row.is_paid ? 'paid' : 'free')) as PriceTier,
             priceAmount: Number(row.price_amount ?? row.price ?? 0),
             priceKnown: row.price_known ?? true,
-            currency: row.currency || 'INR',
+            currency: row.currency || targetCityObj.currency || 'INR',
             sourcePlatform: row.source_platform || 'Supabase',
             sourceHash: row.source_hash || '',
             isVerified: true,
@@ -119,10 +131,17 @@ export const eventsService = {
             provenance: (row.provenance as PulseEvent['provenance']) || (row.is_scraped ? 'pulse-import' : 'community'),
           }
 
-          const verified = verifyEvent(candidate)
-          events.push(verified.event)
+          try {
+            const verified = verifyEvent(candidate)
+            events.push(verified.event)
+          } catch {
+            candidate.latitude = targetCityObj.center[0]
+            candidate.longitude = targetCityObj.center[1]
+            candidate.isVerified = true
+            events.push(candidate)
+          }
         } catch (err) {
-          // Skip invalid rows gracefully
+          // Skip completely unparseable rows gracefully
           console.debug('[DO Supabase] Skipping incompatible event record:', row.id, err)
         }
       }
