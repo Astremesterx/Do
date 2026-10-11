@@ -154,7 +154,7 @@ export const useEventsStore = create<EventsState>()(
     {
       name: 'pulse-events-v1',
       storage: browserStorage as never,
-      version: 4,
+      version: 5,
       partialize: (state) => ({
         city: state.city,
         genre: state.genre,
@@ -167,6 +167,10 @@ export const useEventsStore = create<EventsState>()(
           (e) =>
             !e.id.startsWith('seed-') &&
             !e.id.startsWith('online-') &&
+            !e.id.startsWith('scraped_') &&
+            !e.id.startsWith('gdg_') &&
+            !e.id.startsWith('devpost_') &&
+            !e.id.startsWith('ingested-') &&
             (e.provenance === 'community' || e.isCustom),
         ),
       }),
@@ -174,7 +178,14 @@ export const useEventsStore = create<EventsState>()(
         const previous = persisted as Partial<EventsState>
         const refreshed = generateSeedEvents()
         const userCreated = (previous.events ?? []).filter(
-          (e) => !e.id.startsWith('seed-') && !e.id.startsWith('online-'),
+          (e) =>
+            (e.provenance === 'community' || e.isCustom) &&
+            !e.id.startsWith('seed-') &&
+            !e.id.startsWith('online-') &&
+            !e.id.startsWith('scraped_') &&
+            !e.id.startsWith('gdg_') &&
+            !e.id.startsWith('devpost_') &&
+            !e.id.startsWith('ingested-'),
         )
         return {
           city: previous.city ?? 'bangalore',
@@ -190,21 +201,18 @@ export const useEventsStore = create<EventsState>()(
       merge: (persisted, current) => {
         const previous = persisted as Partial<EventsState> | undefined
         if (!previous?.events) return current
-        const hasUpcoming = previous.events.some(
-          (e) => e.id.startsWith('seed-') && +new Date(e.endTime) > Date.now() + 2 * 86400000,
-        )
         const refreshed = generateSeedEvents()
-        const defaults = new Map(refreshed.map((event) => [event.id, event]))
-        const enriched = previous.events.map((event) =>
-          defaults.has(event.id) ? { ...defaults.get(event.id)!, ...event } : event,
+        const userCreated = (previous.events ?? []).filter(
+          (e) =>
+            (e.provenance === 'community' || e.isCustom) &&
+            !e.id.startsWith('seed-') &&
+            !e.id.startsWith('online-') &&
+            !e.id.startsWith('scraped_') &&
+            !e.id.startsWith('gdg_') &&
+            !e.id.startsWith('devpost_') &&
+            !e.id.startsWith('ingested-'),
         )
-        const events = hasUpcoming
-          ? [...enriched, ...refreshed.filter((e) => !previous.events!.some((p) => p.id === e.id))]
-          : [
-              ...refreshed,
-              ...enriched.filter((e) => !e.id.startsWith('seed-') && !e.id.startsWith('online-')),
-            ]
-        return { ...current, ...previous, events }
+        return { ...current, ...previous, events: [...refreshed, ...userCreated] }
       },
     },
   ),

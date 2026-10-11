@@ -46,7 +46,7 @@ export const CITIES: City[] = [
     currency: 'JPY',
     center: [35.6762, 139.6503],
     mapCenter: [35.6762, 139.7003],
-    bounds: [35.5, 35.85, 139.55, 140.0],
+    bounds: [35.5, 35.85, 139.55, 140.15],
     districts: [
       { name: 'Shibuya', point: [35.6595, 139.7005] },
       { name: 'Shinjuku', point: [35.6938, 139.7034] },
@@ -827,7 +827,7 @@ const regional: Record<string, RegionalMeta> = {
     ],
   },
   dubai: {
-    bounds: [25.02, 25.28, 55.1, 55.35],
+    bounds: [24.8, 25.4, 55.05, 55.55],
     center: [25.2048, 55.2708],
     districts: [
       { name: 'Downtown Dubai', point: [25.1972, 55.2744] },
@@ -840,10 +840,24 @@ const regional: Record<string, RegionalMeta> = {
       { name: 'City Walk', point: [25.2075, 55.2612] },
       { name: 'Deira', point: [25.2697, 55.3095] },
       { name: 'Jumeirah Beach', point: [25.2048, 55.2435] },
+      { name: 'Al Marmoom', point: [24.8967, 55.4211] },
+    ],
+  },
+  abu_dhabi: {
+    name: 'Abu Dhabi',
+    country: 'United Arab Emirates',
+    bounds: [24.15, 24.65, 54.15, 54.7],
+    center: [24.4539, 54.3773],
+    districts: [
+      { name: 'Corniche', point: [24.4686, 54.3312] },
+      { name: 'Yas Island', point: [24.4984, 54.6031] },
+      { name: 'Saadiyat Island', point: [24.5372, 54.4344] },
+      { name: 'Al Maryah Island', point: [24.5008, 54.3892] },
+      { name: 'Downtown', point: [24.4822, 54.3578] },
     ],
   },
   singapore: {
-    bounds: [1.22, 1.35, 103.8, 103.9],
+    bounds: [1.2, 1.48, 103.6, 104.05],
     center: [1.3521, 103.8198],
     districts: [
       { name: 'Marina Bay', point: [1.2838, 103.8591] },
@@ -856,6 +870,35 @@ const regional: Record<string, RegionalMeta> = {
       { name: 'Sentosa', point: [1.2494, 103.8303] },
       { name: 'Katong', point: [1.3048, 103.9022] },
       { name: 'Chinatown', point: [1.2815, 103.8432] },
+      { name: 'Changi & Expo', point: [1.3345, 103.9615] },
+    ],
+  },
+  visakhapatnam: {
+    name: 'Visakhapatnam',
+    country: 'India',
+    state: 'Andhra Pradesh',
+    bounds: [17.5, 17.9, 83.1, 83.45],
+    center: [17.6868, 83.2185],
+    districts: [
+      { name: 'Beach Road', point: [17.7126, 83.3195] },
+      { name: 'Dwaraka Nagar', point: [17.7265, 83.3072] },
+      { name: 'Rushikonda', point: [17.7816, 83.3853] },
+      { name: 'Gajuwaka', point: [17.6908, 83.2081] },
+      { name: 'MVP Colony', point: [17.7412, 83.3325] },
+    ],
+  },
+  bali: {
+    name: 'Bali',
+    country: 'Indonesia',
+    bounds: [-8.9, -8.05, 114.4, 115.75],
+    center: [-8.5069, 115.2625],
+    districts: [
+      { name: 'Ubud', point: [-8.5069, 115.2625] },
+      { name: 'Seminyak', point: [-8.6896, 115.1686] },
+      { name: 'Canggu', point: [-8.6478, 115.1385] },
+      { name: 'Denpasar', point: [-8.6705, 115.2126] },
+      { name: 'Sanur', point: [-8.6782, 115.2638] },
+      { name: 'Uluwatu', point: [-8.8149, 115.0884] },
     ],
   },
 }
@@ -906,7 +949,10 @@ const prioritizedCityKeys = [
   'paris',
   'new_york',
   'dubai',
+  'abu_dhabi',
   'singapore',
+  'visakhapatnam',
+  'bali',
 ]
 
 const allCityKeys = Array.from(
@@ -980,6 +1026,9 @@ export function resolveCity(value: string) {
     palghat: 'palakkad',
     mysuru: 'mysore',
     mangaluru: 'mangalore',
+    vizag: 'visakhapatnam',
+    ubud: 'bali',
+    denpasar: 'bali',
   }
   const alias = aliasMap[normalized] || normalized
   return CITIES.find((c) => c.id === alias || c.name.toLowerCase() === value.toLowerCase())

@@ -7,21 +7,31 @@ const env =
     : {}
 
 const supabaseUrl =
-  env.VITE_SUPABASE_URL ||
+  env.VITE_SUPABASE_URL?.trim() ||
   'https://wvmczeizdehapojpzgoz.supabase.co'
 
 const supabaseAnonKey =
-  env.VITE_SUPABASE_ANON_KEY ||
-  env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+  env.VITE_SUPABASE_PUBLISHABLE_KEY?.trim() ||
+  env.VITE_SUPABASE_ANON_KEY?.trim() ||
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind2bWN6ZWl6ZGVoYXBvanB6Z296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2NDg3MTgsImV4cCI6MjEwNzIyNDcxOH0.oz1KplLFkpkL5p78vV9Vcu6AHqrjro9TtTrQvLKXwG0'
 
+export function isPublicSupabaseConfig(url: string, key: string): boolean {
+  try {
+    const parsed = new URL(url)
+    if (parsed.protocol !== 'https:' || parsed.username || parsed.password ||
+      parsed.pathname !== '/' || parsed.search || parsed.hash ||
+      parsed.hostname.includes('your-project-ref')) return false
+    if (key.startsWith('sb_publishable_')) return key.length > 20
+    // Never allow service_role / secret credentials to initialize a browser client.
+    const payload = JSON.parse(atob(key.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
+    return payload.role === 'anon'
+  } catch {
+    return false
+  }
+}
+
 export const isSupabaseConfigured = (): boolean => {
-  return Boolean(
-    supabaseUrl &&
-      supabaseAnonKey &&
-      supabaseUrl.startsWith('https://') &&
-      !supabaseUrl.includes('your-project-ref'),
-  )
+  return isPublicSupabaseConfig(supabaseUrl, supabaseAnonKey)
 }
 
 let clientInstance: SupabaseClient<Database> | null = null

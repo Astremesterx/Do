@@ -27,12 +27,17 @@ export const adapters: ScraperAdapter[] = [
   name,
   async extract() {
     await wait()
-    const seeds = generateSeedEvents().filter((e) => !e.isOnline && e.id.includes('-0-'))
+    const seeds = generateSeedEvents().filter((e) => !e.isOnline)
     return CITIES.slice(0, 5).map((city, i) => {
-      const candidates = seeds.filter(
+      const cityCandidates = seeds.filter(
         (e) => e.city === city.id && sourceGenres[index].includes(e.genre),
       )
-      const e = candidates[(index + i) % candidates.length]
+      const genreCandidates = seeds.filter((e) => sourceGenres[index].includes(e.genre))
+      const template =
+        cityCandidates[(index + i) % cityCandidates.length] ||
+        genreCandidates[(index + i) % genreCandidates.length] ||
+        seeds[0]
+      const e = { ...template, city: city.id }
       const startTime = zonedISO(
         addDate(cityDate(new Date(), e.city), 1 + (i % 3)),
         '13:30',
@@ -48,6 +53,11 @@ export const adapters: ScraperAdapter[] = [
         seedKey: `ingested-${index}-${e.city}`,
         isOnline: false,
       })
+      const targetCity = CITIES.find((c) => c.id === city.id) || city
+      const coords: [number, number] =
+        cityCandidates.length > 0 && template.city === city.id
+          ? [template.latitude, template.longitude]
+          : [targetCity.center[0], targetCity.center[1]]
       return {
         ...e,
         id: `ingested-${index}-${e.city}-${startTime.slice(0, 10)}`,
@@ -56,8 +66,8 @@ export const adapters: ScraperAdapter[] = [
         registrationUrl,
         startTime,
         endTime: new Date(+new Date(startTime) + 90 * 60000).toISOString(),
-        latitude: i === 0 ? 0 : e.latitude,
-        longitude: i === 0 ? 0 : e.longitude,
+        latitude: i === 0 ? 0 : coords[0],
+        longitude: i === 0 ? 0 : coords[1],
       }
     })
   },
