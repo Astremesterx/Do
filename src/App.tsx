@@ -146,6 +146,57 @@ export default function App() {
   const notify = useCallback((message: string) => setToast(message), []),
     closeToast = useCallback(() => setToast(''), [])
 
+  const [sidebarHovered, setSidebarHovered] = useState(false)
+  const sidebarCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const handleSidebarEnter = useCallback(() => {
+    if (sidebarCloseTimer.current) {
+      clearTimeout(sidebarCloseTimer.current)
+      sidebarCloseTimer.current = null
+    }
+    setSidebarHovered(true)
+  }, [])
+
+  const handleSidebarLeave = useCallback(() => {
+    if (sidebarCloseTimer.current) {
+      clearTimeout(sidebarCloseTimer.current)
+    }
+    sidebarCloseTimer.current = setTimeout(() => {
+      setSidebarHovered(false)
+    }, 220)
+  }, [])
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (window.innerWidth < 769) return
+      // If cursor moves near the left screen edge below the header, reveal sidebar
+      if (e.clientX <= 28 && e.clientY >= 76) {
+        handleSidebarEnter()
+      }
+    }
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [handleSidebarEnter])
+
+  useEffect(() => {
+    if (!sidebarHovered) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSidebarHovered(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [sidebarHovered])
+
+  useEffect(() => {
+    return () => {
+      if (sidebarCloseTimer.current) {
+        clearTimeout(sidebarCloseTimer.current)
+      }
+    }
+  }, [])
+
   useEffect(() => {
     const handleAdminKey = (e: KeyboardEvent) => {
       // Ctrl+Shift+A or Alt+M opens maintenance access for site administrators
@@ -922,69 +973,83 @@ export default function App() {
         </div>
       </header>
       <div className="app-body">
-        <aside className="sidebar">
-          <nav aria-label="Main navigation">
-            {(
-              [
-                { id: 'discover', label: 'Discover', Icon: Compass },
-                { id: 'online', label: 'Online events', Icon: Globe2 },
-                { id: 'trips', label: 'My trips', Icon: Route },
-                { id: 'saved', label: 'Saved moments', Icon: Bookmark },
-                { id: 'explore', label: 'Explore all events', Icon: Grid2X2 },
-                { id: 'chats', label: 'My conversations', Icon: MessageCircle },
-                { id: 'profile', label: 'My profile', Icon: UserRound },
-              ] as const
-            ).map((item) => (
-              <button
-                key={item.id}
-                className={`sidebar-item ${view === item.id ? 'active' : ''}`}
-                onClick={() => changeView(item.id)}
-                aria-label={item.label}
-                title={item.label}
-              >
-                <item.Icon size={21} />
-                {item.id === 'saved' && savedIds.length > 0 && <i />}
-                <span>
-                  {item.id === 'discover'
-                    ? 'Explore'
-                    : item.id === 'online'
-                      ? 'Online'
-                      : item.id === 'trips'
-                        ? 'Trips'
-                        : item.id === 'saved'
-                          ? 'Saved'
-                          : item.id === 'explore'
-                            ? 'Browse'
-                            : item.id === 'chats'
-                              ? 'Chats'
-                              : 'You'}
-                </span>
-              </button>
-            ))}
-          </nav>
-          <div className="sidebar-bottom">
-            <button
-              className="sidebar-item"
-              aria-label="About DO"
-              title="About & data"
-              onClick={() => setDialog('tour')}
-            >
-              <HelpCircle size={20} />
-            </button>
-            {isAdmin && (
-              <button
-                className="sidebar-item admin-sidebar-btn"
-                aria-label="Site Maintenance Console"
-                title="Site Maintenance Console"
-                onClick={() => setDialog('console')}
-              >
-                <Wrench size={20} />
-              </button>
-            )}
-            <span className="sidebar-line" />
-            <span className="sidebar-tiny-pulse">✳</span>
+        <div
+          className={`sidebar-dock ${sidebarHovered ? 'is-expanded' : ''}`}
+          onMouseEnter={handleSidebarEnter}
+          onMouseLeave={handleSidebarLeave}
+        >
+          <div
+            className="sidebar-edge-tab"
+            aria-label="Expand navigation"
+            title="Move cursor here or click to open sidebar"
+            onClick={() => setSidebarHovered((prev) => !prev)}
+          >
+            <span className="sidebar-edge-pill" />
           </div>
-        </aside>
+          <aside className="sidebar">
+            <nav aria-label="Main navigation">
+              {(
+                [
+                  { id: 'discover', label: 'Discover', Icon: Compass },
+                  { id: 'online', label: 'Online events', Icon: Globe2 },
+                  { id: 'trips', label: 'My trips', Icon: Route },
+                  { id: 'saved', label: 'Saved moments', Icon: Bookmark },
+                  { id: 'explore', label: 'Explore all events', Icon: Grid2X2 },
+                  { id: 'chats', label: 'My conversations', Icon: MessageCircle },
+                  { id: 'profile', label: 'My profile', Icon: UserRound },
+                ] as const
+              ).map((item) => (
+                <button
+                  key={item.id}
+                  className={`sidebar-item ${view === item.id ? 'active' : ''}`}
+                  onClick={() => changeView(item.id)}
+                  aria-label={item.label}
+                  title={item.label}
+                >
+                  <item.Icon size={21} />
+                  {item.id === 'saved' && savedIds.length > 0 && <i />}
+                  <span>
+                    {item.id === 'discover'
+                      ? 'Explore'
+                      : item.id === 'online'
+                        ? 'Online'
+                        : item.id === 'trips'
+                          ? 'Trips'
+                          : item.id === 'saved'
+                            ? 'Saved'
+                            : item.id === 'explore'
+                              ? 'Browse'
+                              : item.id === 'chats'
+                                ? 'Chats'
+                                : 'You'}
+                  </span>
+                </button>
+              ))}
+            </nav>
+            <div className="sidebar-bottom">
+              <button
+                className="sidebar-item"
+                aria-label="About DO"
+                title="About & data"
+                onClick={() => setDialog('tour')}
+              >
+                <HelpCircle size={20} />
+              </button>
+              {isAdmin && (
+                <button
+                  className="sidebar-item admin-sidebar-btn"
+                  aria-label="Site Maintenance Console"
+                  title="Site Maintenance Console"
+                  onClick={() => setDialog('console')}
+                >
+                  <Wrench size={20} />
+                </button>
+              )}
+              <span className="sidebar-line" />
+              <span className="sidebar-tiny-pulse">✳</span>
+            </div>
+          </aside>
+        </div>
         <main className="main-area">
           <section className="discovery-heading">
             <div>

@@ -378,72 +378,112 @@ svg {
   font-size: 21px;
 }
 
-/* Laptop / Desktop auto-hiding sidebar on cursor hover */
-@media (min-width: 769px) and (hover: hover) {
-  .sidebar {
+/* Laptop / Desktop auto-hiding sidebar dock on cursor hover / edge interaction */
+@media (min-width: 769px) {
+  .sidebar-dock {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 28px;
+    z-index: 850;
+    pointer-events: auto;
+    transition: width 0.25s ease;
+  }
+
+  .sidebar-dock.is-expanded,
+  .sidebar-dock:hover,
+  .sidebar-dock:focus-within {
+    width: 78px;
+  }
+
+  .sidebar-edge-tab {
     position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
-    z-index: 850;
-    transform: translateX(-100%);
-    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease;
-    transition-delay: 0.12s;
-    box-shadow: none;
-    background: var(--tone-f4f4f1);
+    width: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 3px;
+    cursor: pointer;
+    z-index: 860;
+    user-select: none;
   }
 
-  [data-theme='dark'] .sidebar {
+  .sidebar-edge-pill {
+    width: 4px;
+    height: 48px;
+    border-radius: 0 4px 4px 0;
+    background: var(--tone-70706c);
+    opacity: 0.45;
+    transition: opacity 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+  }
+
+  .sidebar-dock:hover .sidebar-edge-pill,
+  .sidebar-dock.is-expanded .sidebar-edge-pill {
+    opacity: 0;
+    height: 20px;
+  }
+
+  .sidebar-dock .sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 78px;
+    transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+    box-shadow: none;
+    background: var(--tone-f4f4f1);
+    z-index: 850;
+  }
+
+  [data-theme='dark'] .sidebar-dock .sidebar {
     background: #141414;
     border-right-color: rgba(255, 255, 255, 0.08);
   }
 
-  /* Extended invisible hit sensor strip on the left edge */
-  .sidebar::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 100%;
-    width: 20px;
-    background: transparent;
-    cursor: pointer;
-    pointer-events: auto;
-    z-index: 10;
-  }
-
-  /* Subtle vertical edge pill indicator when collapsed */
-  .sidebar::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 44px;
-    border-radius: 0 4px 4px 0;
-    background: var(--tone-70706c);
-    opacity: 0.35;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    pointer-events: none;
-  }
-
-  .sidebar:hover::before,
-  .sidebar:focus-within::before {
-    opacity: 0;
-    transform: translateY(-50%) scaleY(0.5);
-  }
-
-  .sidebar:hover,
-  .sidebar:focus-within {
+  .sidebar-dock.is-expanded .sidebar,
+  .sidebar-dock:hover .sidebar,
+  .sidebar-dock:focus-within .sidebar {
     transform: translateX(0);
-    transition-delay: 0s;
     box-shadow: 6px 0 32px rgba(0, 0, 0, 0.16);
   }
 
-  [data-theme='dark'] .sidebar:hover,
-  [data-theme='dark'] .sidebar:focus-within {
+  [data-theme='dark'] .sidebar-dock.is-expanded .sidebar,
+  [data-theme='dark'] .sidebar-dock:hover .sidebar,
+  [data-theme='dark'] .sidebar-dock:focus-within .sidebar {
     box-shadow: 6px 0 36px rgba(0, 0, 0, 0.6);
+  }
+}
+
+@media (max-width: 1200px) and (min-width: 769px) {
+  .sidebar-dock.is-expanded,
+  .sidebar-dock:hover,
+  .sidebar-dock:focus-within {
+    width: 65px;
+  }
+  .sidebar-dock .sidebar {
+    width: 65px;
+  }
+}
+
+@media (max-width: 800px) and (min-width: 769px) {
+  .sidebar-dock.is-expanded,
+  .sidebar-dock:hover,
+  .sidebar-dock:focus-within {
+    width: 58px;
+  }
+  .sidebar-dock .sidebar {
+    width: 58px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar-dock {
+    display: none !important;
   }
 }
 .main-area {
