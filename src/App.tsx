@@ -1030,11 +1030,13 @@ export default function App() {
                 )}
               </h1>
             </div>
-            <button className="primary-button plan-button" onClick={() => setDialog('trip')}>
-              <Route size={17} />
-              Plan a trip
-              <ArrowUpRight size={17} />
-            </button>
+            {!(view === 'trips' && plans.length > 0) && (
+              <button className="primary-button plan-button" onClick={() => setDialog('trip')}>
+                <Route size={17} />
+                Plan a trip
+                <ArrowUpRight size={17} />
+              </button>
+            )}
           </section>
           <div className="view-bar">
             <nav aria-label="Views">

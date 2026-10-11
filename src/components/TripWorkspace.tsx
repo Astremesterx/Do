@@ -203,6 +203,26 @@ export function TripWorkspace({
           </button>
         ))}
       </div>
+
+      {/* Enhanced Hero Map at Top */}
+      <section className="trip-map trip-map-hero">
+        <MapView
+          city={plan.destinationCity}
+          events={stops.map((s) => s.event)}
+          stops={stops}
+          onSelect={onSelect}
+        />
+        <div className="route-summary glass trip-map-overlay">
+          <Route size={20} />
+          <div>
+            <strong>Day {activeDay} Route · {stops.length} connected moments</strong>
+            <span>
+              {totalKm.toFixed(1)} km · ~{totalTime} min transit · {getCity(plan.destinationCity).name} ({getCity(plan.destinationCity).timezone})
+            </span>
+          </div>
+        </div>
+      </section>
+
       <div className="trip-body">
         <section className="trip-stops-panel">
           <header className="day-overview">
@@ -342,23 +362,14 @@ export function TripWorkspace({
             </button>
           </footer>
         </section>
-        <section className="trip-map">
-          <MapView
-            city={plan.destinationCity}
-            events={stops.map((s) => s.event)}
-            stops={stops}
-            onSelect={onSelect}
-          />
-          <div className="route-summary glass">
-            <Route size={20} />
-            <div>
-              <strong>One day. A few good directions.</strong>
-              <span>
-                {stops.length} stops connected · Times in {getCity(plan.destinationCity).timezone}
-              </span>
-            </div>
-          </div>
-        </section>
+
+        <footer className="trip-bottom-cta">
+          <button className="primary-button plan-another-trip-btn" onClick={onCreate}>
+            <Route size={16} />
+            <span>Plan another trip</span>
+            <ArrowUpRight size={16} />
+          </button>
+        </footer>
       </div>
       {swap && (
         <Modal
