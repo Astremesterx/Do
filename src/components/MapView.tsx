@@ -20,7 +20,6 @@ import {
   Navigation,
   Maximize2,
   Minimize2,
-  Focus,
   MapPin,
 } from 'lucide-react'
 import type { ImFreeBeacon, ItineraryStop, PulseEvent } from '../domain'
@@ -182,20 +181,6 @@ function MapControls({
       )}
       <button
         type="button"
-        aria-label="Fit all visible events"
-        title="Fit all visible events"
-        onClick={() => {
-          if (events.length)
-            map.fitBounds(
-              L.latLngBounds(events.map((e) => [e.latitude, e.longitude] as [number, number])),
-              { padding: [50, 50], maxZoom: 15 },
-            )
-        }}
-      >
-        <Focus size={17} />
-      </button>
-      <button
-        type="button"
         aria-label="Locate me on map"
         title="Locate me on map"
         disabled={locating}
@@ -215,10 +200,19 @@ function MapControls({
         <Navigation size={16} />
       </button>
       <button
-        aria-label="Center map on city"
+        type="button"
+        aria-label="Center map view"
+        title="Center map view"
         onClick={() => {
           if (city === 'all') {
             map.flyTo([20, 0], 2.2)
+          } else if (events.length === 1) {
+            map.flyTo([events[0].latitude, events[0].longitude], 14)
+          } else if (events.length > 1) {
+            map.fitBounds(
+              L.latLngBounds(events.map((e) => [e.latitude, e.longitude] as [number, number])),
+              { padding: [50, 50], maxZoom: 14 },
+            )
           } else {
             map.flyTo(getCity(city).mapCenter, 13)
           }
