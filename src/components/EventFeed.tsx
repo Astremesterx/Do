@@ -3,22 +3,29 @@ import type { PulseEvent } from '../domain'
 import { EventCard } from './EventCard'
 import { ErrorBoundary } from './ErrorBoundary'
 
-export function EventFeed({
-  events,
-  onSelect,
-  selectedId,
-  now,
-  grid = false,
-}: {
+export interface EventFeedProps {
   events: PulseEvent[]
   onSelect: (e: PulseEvent) => void
   selectedId?: string
   now: number
   grid?: boolean
-}) {
+  filterKey?: string
+}
+
+function EventFeedInner({
+  events,
+  onSelect,
+  selectedId,
+  now,
+  grid = false,
+  filterKey,
+}: EventFeedProps) {
   const container = useRef<HTMLDivElement>(null)
   const [viewport, setViewport] = useState({ height: 700, width: 500, scroll: 0 })
   const rafRef = useRef<number | null>(null)
+  const prevFilterKey = useRef<string | undefined>(filterKey)
+  const prevFirstId = useRef<string | undefined>(events[0]?.id)
+  const prevLength = useRef<number>(events.length)
 
   useEffect(() => {
     const el = container.current
@@ -34,10 +41,33 @@ export function EventFeed({
     return () => observer.disconnect()
   }, [])
 
+  // Only reset scroll when filter criteria change or dataset changes significantly,
+  // NOT on every 30s background timer tick or silent sync merge:
   useEffect(() => {
-    if (container.current) container.current.scrollTop = 0
-    setViewport((v) => (v.scroll === 0 ? v : { ...v, scroll: 0 }))
-  }, [events])
+    let shouldReset = false
+    if (filterKey !== undefined) {
+      if (prevFilterKey.current !== undefined && prevFilterKey.current !== filterKey) {
+        shouldReset = true
+      }
+      prevFilterKey.current = filterKey
+    } else {
+      const firstId = events[0]?.id
+      const len = events.length
+      if (
+        (firstId !== prevFirstId.current && Math.abs(len - prevLength.current) > 5) ||
+        (len === 0 && prevLength.current > 0)
+      ) {
+        shouldReset = true
+      }
+      prevFirstId.current = firstId
+      prevLength.current = len
+    }
+
+    if (shouldReset) {
+      if (container.current) container.current.scrollTop = 0
+      setViewport((v) => (v.scroll === 0 ? v : { ...v, scroll: 0 }))
+    }
+  }, [filterKey, events])
 
   useEffect(() => {
     return () => {
@@ -53,14 +83,16 @@ export function EventFeed({
   const virtual = events.length > 250
   const columns = grid ? (viewport.width > 680 ? 3 : viewport.width > 440 ? 2 : 1) : 1
   const rowHeight = grid ? 408 : 190
-  const totalRows = Math.ceil(events.length / columns)
+  const totalRows = Math.max(1, Math.ceil(events.length / columns))
+  const safeScroll = Math.max(0, viewport.scroll || 0)
+  const safeHeight = Math.max(100, viewport.height || 700)
 
   // Strictly clamp first and last rows to avoid any index out-of-bounds or negative array lengths:
   const first = virtual
-    ? Math.max(0, Math.min(totalRows, Math.floor(viewport.scroll / rowHeight) - 2))
+    ? Math.max(0, Math.min(totalRows - 1, Math.floor(safeScroll / rowHeight) - 2))
     : 0
   const last = virtual
-    ? Math.max(first, Math.min(totalRows, Math.ceil((viewport.scroll + viewport.height) / rowHeight) + 2))
+    ? Math.max(first, Math.min(totalRows, Math.ceil((safeScroll + safeHeight) / rowHeight) + 3))
     : totalRows
 
   const visibleRowCount = Math.max(0, last - first)
@@ -71,7 +103,7 @@ export function EventFeed({
 
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
     if (!virtual) return
-    const top = e.currentTarget.scrollTop
+    const top = Math.max(0, e.currentTarget?.scrollTop ?? 0)
     if (rafRef.current !== null) {
       cancelAnimationFrame(rafRef.current)
     }
@@ -80,6 +112,56 @@ export function EventFeed({
     })
   }
 
+  return (
+    <div
+      className={`event-feed ${grid ? 'feed-grid' : ''} ${virtual ? 'feed-virtual' : ''}`}
+      ref={container}
+      onScroll={handleScroll}
+    >
+      {virtual ? (
+        <div className="virtual-space" style={{ height: Math.max(1, totalRows * rowHeight) }}>
+          {visibleRows.map((row) => (
+            <div
+              className="virtual-row"
+              key={row}
+              style={{
+                top: row * rowHeight,
+                height: rowHeight,
+                gridTemplateColumns: `repeat(${columns},minmax(0,1fr))`,
+              }}
+            >
+              {events.slice(row * columns, (row + 1) * columns).map((event) => (
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  onSelect={onSelect}
+                  selected={selectedId === event.id}
+                  now={now}
+                  compact={!grid}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="event-feed-inner">
+          {events.map((event) => (
+            <EventCard
+              key={event.id}
+              event={event}
+              onSelect={onSelect}
+              selected={selectedId === event.id}
+              now={now}
+              compact={!grid}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export function EventFeed(props: EventFeedProps) {
   return (
     <ErrorBoundary
       fallback={
@@ -90,61 +172,14 @@ export function EventFeed({
           <button
             type="button"
             className="secondary-button"
-            onClick={() => {
-              if (container.current) container.current.scrollTop = 0
-              setViewport((v) => ({ ...v, scroll: 0 }))
-            }}
+            onClick={() => window.location.reload()}
           >
-            Scroll to top
+            Refresh feed
           </button>
         </div>
       }
     >
-      <div
-        className={`event-feed ${grid ? 'feed-grid' : ''} ${virtual ? 'feed-virtual' : ''}`}
-        ref={container}
-        onScroll={handleScroll}
-      >
-        {virtual ? (
-          <div className="virtual-space" style={{ height: Math.max(1, totalRows * rowHeight) }}>
-            {visibleRows.map((row) => (
-              <div
-                className="virtual-row"
-                key={row}
-                style={{
-                  top: row * rowHeight,
-                  height: rowHeight,
-                  gridTemplateColumns: `repeat(${columns},minmax(0,1fr))`,
-                }}
-              >
-                {events.slice(row * columns, (row + 1) * columns).map((event) => (
-                  <EventCard
-                    key={event.id}
-                    event={event}
-                    onSelect={onSelect}
-                    selected={selectedId === event.id}
-                    now={now}
-                    compact={!grid}
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="event-feed-inner">
-            {events.map((event) => (
-              <EventCard
-                key={event.id}
-                event={event}
-                onSelect={onSelect}
-                selected={selectedId === event.id}
-                now={now}
-                compact={!grid}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+      <EventFeedInner {...props} />
     </ErrorBoundary>
   )
 }

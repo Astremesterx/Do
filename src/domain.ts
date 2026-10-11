@@ -60,6 +60,7 @@ export interface PulseEvent {
   unlimited?: boolean
   minTrustScore?: number
   registrationStatus?: 'open' | 'closed' | 'waitlist'
+  requiresRegistration?: boolean
   officialLinks?: { label: string; url: string; type?: string }[]
   officialMentions?: { title: string; url: string; platform?: string }[]
   provenance?: 'demo' | 'community' | 'collected' | 'pulse-import'

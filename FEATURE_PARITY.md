@@ -1,6 +1,6 @@
 # Pulse reference analysis and DO implementation
 
-Reference: `C:/Users/Salif/Desktop/ctf/web-pulse.zip`. Reviewed on 10 October 2026. The archive was treated as reference material, not as authorization to run its scripts, use its accounts, or deploy anything. Only source and data files were extracted to the sibling `.reference-pulse` directory; its dependencies and executables were not run.
+Reference: `web-pulse.zip` archive. Reviewed on 10 October 2026. The archive was treated as reference material, not as authorization to run its scripts, use its accounts, or deploy anything. Only source and data files were extracted to the sibling `.reference-pulse` directory; its dependencies and executables were not run.
 
 ## What the reference actually does
 

@@ -12,8 +12,11 @@
 
 ## Table of Contents
 
-1. [Executive Summary & Vision](#executive-summary--vision)
-2. [Key Capabilities & Feature Architecture](#key-capabilities--feature-architecture)
+1. [What is DO & What is it Useful For?](#-what-is-do--what-is-it-useful-for)
+   - [Target Users & Real-World Use Cases](#-who-is-it-useful-for)
+   - [Core Features at a Glance](#-core-features-at-a-glance)
+2. [Executive Summary & Vision](#executive-summary--vision)
+3. [Key Capabilities & Feature Architecture](#key-capabilities--feature-architecture)
    - [Interactive Map & Spatial Discovery](#interactive-map--spatial-discovery)
    - [Event Filtering & City Catalog](#event-filtering--city-catalog)
    - [Smart Trip Planner & Itinerary Engine](#smart-trip-planner--itinerary-engine)
@@ -24,13 +27,82 @@
    - [Cloud Sync & Supabase Backend](#cloud-sync--supabase-backend)
    - [Admin Portal & Maintenance Console](#admin-portal--maintenance-console)
    - [UI/UX & Design System](#uiux--design-system)
-3. [System Architecture & Data Flow](#system-architecture--data-flow)
-4. [Project Structure](#project-structure)
-5. [Getting Started & Local Setup](#getting-started--local-setup)
-6. [Environment Configuration](#environment-configuration)
-7. [Comprehensive User Walkthrough](#comprehensive-user-walkthrough)
-8. [Testing & Quality Assurance](#testing--quality-assurance)
-9. [License & Credits](#license--credits)
+4. [System Architecture & Data Flow](#system-architecture--data-flow)
+5. [Project Structure](#project-structure)
+6. [Getting Started & Local Setup](#getting-started--local-setup)
+7. [Environment Configuration](#environment-configuration)
+8. [Comprehensive User Walkthrough](#comprehensive-user-walkthrough)
+9. [Testing & Quality Assurance](#testing--quality-assurance)
+10. [License & Credits](#license--credits)
+
+---
+
+## 💡 What is DO & What is it Useful For?
+
+**DO** is a real-time event discovery, social coordination, and intelligent travel engine built to connect people with verified happenings around them and across the globe. Rather than treating events as static bulletin boards or cluttered ticketing links, DO combines **interactive geographic exploration**, **algorithmic multi-day itinerary generation**, and **verified community engagement** into a single cohesive, high-performance experience.
+
+### 🎯 Who is it Useful For?
+
+| User / Persona | What They Use DO For | Real-World Benefit |
+| :--- | :--- | :--- |
+| 🌆 **Locals & Urban Explorers** | Discovering what’s happening tonight, tomorrow, or this weekend nearby. | No more endless scrolling through social media or dead links. Instant filtered view of concerts, tech meetups, art popups, food markets, and outdoor gigs within walking or driving distance. |
+| 🎒 **Travelers & Weekend Trippers** | Automatically generating multi-day city itineraries with realistic transit times. | Generates optimized day-by-day schedules (morning, afternoon, evening, night) with Haversine distance calculations, 45-minute transit buffers, and one-click iCal (`.ics`) export to Google/Apple Calendar. |
+| 🎤 **Event Hosts & Communities** | Publishing physical or virtual events in 3 simple steps without paywalls. | Custom cover images, guest limits, interactive map pin drop, private ticket/joining instructions revealed only upon RSVP, and built-in live attendee chat rooms. |
+| 💻 **Remote Learners & Digital Nomads** | Finding global virtual hackathons, webinars, and livestreams. | Dedicated virtual feed with automatic IANA timezone conversion, attendee count, and direct launch links. |
+| 🤝 **Social Gatherers & Meetup Groups** | Connecting with verified attendees and spontaneous neighborhood plans. | Ephemeral "I'm Free" radar beacons for quick meetups, verified attendee trust scores (0–1000) to minimize no-shows, and dedicated event discussion threads. |
+
+---
+
+### ✨ Core Features at a Glance
+
+DO is packed with production-ready features designed for speed, privacy, and an effortless user experience:
+
+- 🗺️ **Interactive Spatial Map & Radar**:
+  - **3 Map Layers**: Dark Matter (OSM), CARTO vector basemap, and Esri World Imagery (Satellite).
+  - **Category-Coded SVG Markers**: Real-time pulsating radar rings for live events, color-coded across 12 distinct genres.
+  - **Deterministic Pin Decluttering**: Automatic collision spreading ensures venues sharing the same location are easily clickable.
+  - **In-Memory GPS Centering**: Adjustable radius filtering (5 km to 100+ km) without tracking or persisting your location coordinates to a remote server.
+
+- 🔍 **Multi-Dimensional Event Discovery**:
+  - **12 Curated Genres**: Tech, Music, Nightlife, Food, Art, Sports, Business, Outdoor, Social, Photography, Gaming, and Books.
+  - **Real-Time Temporal Filters**: *Live Now*, *Today*, *Tomorrow*, *This Weekend*, or specific custom date pickers.
+  - **Budget & Price Intelligence**: Free vs. Paid filters with automatic multi-currency conversion (USD, INR, EUR, JPY).
+  - **Global City Catalog**: Covers international metropolises (Tokyo, Berlin, San Francisco, Bangalore, Barcelona) alongside comprehensive Kerala regional districts.
+
+- 🗓️ **Algorithmic Smart Trip & Itinerary Engine**:
+  - Automatically builds 1- to 14-day balanced travel schedules based on your chosen city, travel dates, pace, and vibe.
+  - Calculates transit feasibility, walking/driving distances, and enforces 45-minute travel buffers so you never double-book.
+  - Swap events within a 5 km radius or insert custom personal stops (cafes, hotels, monuments).
+  - 1-click export to standard **RFC 5545 iCalendar (`.ics`)**, shareable URL links, or portable JSON.
+
+- 💬 **Live RSVP & Real-Time Event Chat Rooms**:
+  - One-click RSVP ("Going" / "Interested") with live capacity meters.
+  - Real-time discussion room for every event so attendees can coordinate logistics, rides, or meetups.
+  - Host broadcast announcements pinned to the top of the event room.
+
+- 🛡️ **Community Trust & Reputation System**:
+  - Transparent trust score engine (0 to 1000) rewarding verified attendance, event hosting, and constructive participation.
+  - Organizer entry gates: Hosts can set minimum trust tiers to prevent spam and reduce no-shows.
+  - Customizable personas (Explorer vs. Organization) with handles, bios, and interest tags.
+
+- 🧙‍♂️ **3-Step Event Hosting Wizard**:
+  - **Step 1: Basics** — Title, Category, Dates & Times, high-res Unsplash presets or custom image upload.
+  - **Step 2: Location** — Interactive Leaflet map pin-drop, physical venue address, or virtual meeting URL.
+  - **Step 3: Access & Tickets** — Capacity caps, ticket pricing, trust gating, and secret RSVP-only access notes.
+
+- 🔒 **Event Truth Verifier & Anti-Scraping**:
+  - Cryptographic SHA-256 fingerprinting prevents duplicate listings across sources.
+  - Deep-link sanitizer strips tracking cookies and UTM params, verifying authentic direct ticket destinations.
+  - Coordinate and ISO 8601 validation guards against bad data.
+
+- ⚡ **Resilient Dual Architecture (Offline-First + Cloud Sync)**:
+  - **Works 100% Offline**: Full feature set runs client-side immediately without an account or cloud setup, saving your changes to IndexedDB snapshots and `localStorage`.
+  - **Supabase Cloud Sync**: Drop in your Supabase credentials to instantly turn on multi-user synchronization, real-time websockets, and cloud persistence.
+
+- 🛠️ **Admin Maintenance Portal & Public Ingestion Radar**:
+  - Secure passphrase-gated admin console (`/admin`).
+  - Standalone Node.js ingestion scraper for public feeds (Google Developer Groups, Devpost, Luma, Eventbrite).
+  - Complete JSON database backup, restore, and storage quota diagnostics.
 
 ---
 
@@ -302,9 +374,14 @@ pulse-horizon/
 
 ### Installation
 
-1. Enter the project root:
+1. Clone or navigate to the project directory:
    ```sh
-   cd c:/Users/Salif/Desktop/projects/Do/pulse-horizon
+   # Clone the repository
+   git clone https://github.com/your-username/do.git
+   cd do/pulse-horizon
+
+   # Or if you already have the project folder open:
+   cd pulse-horizon
    ```
 
 2. Install dependencies:
@@ -332,7 +409,7 @@ pulse-horizon/
    # Run ESLint across the codebase
    npm run lint
 
-   # Execute the entire Vitest test suite (89 tests)
+   # Execute the entire Vitest test suite (106 tests)
    npm test
 
    # Run one-off public event collector (GDG & Devpost)

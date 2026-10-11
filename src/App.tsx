@@ -364,6 +364,7 @@ export default function App() {
       [events, city, now],
     ),
     liveCount = cityEvents.filter((e) => isLive(e, now)).length
+  const filterKey = `${view}-${city}-${genre}-${time}-${date}-${radius}-${sort}`
 
   const showEvent = (event: PulseEvent, conversation = false) => {
     if (profile.isGuest) {
@@ -1495,7 +1496,7 @@ export default function App() {
                 </div>
               </div>
               {view === 'explore' ? (
-                <ExploreWorkspace events={filtered} onSelect={showEvent} now={now} />
+                <ExploreWorkspace events={filtered} onSelect={showEvent} now={now} filterKey={filterKey} />
               ) : view === 'online' ? (
                 <section className="online-workspace">
                   <div className="online-intro">
@@ -1530,7 +1531,7 @@ export default function App() {
                   </div>
                   {filtered.length ? (
                     <div className="online-feed-wrapper">
-                      <EventFeed events={filtered} onSelect={showEvent} now={now} grid />
+                      <EventFeed events={filtered} onSelect={showEvent} now={now} grid filterKey={filterKey} />
                     </div>
                   ) : (
                     <EmptyState
@@ -1643,6 +1644,7 @@ export default function App() {
                         onSelect={showEvent}
                         selectedId={mapSelected?.id}
                         now={now}
+                        filterKey={filterKey}
                       />
                     ) : (
                       <EmptyState

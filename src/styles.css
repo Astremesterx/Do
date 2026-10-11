@@ -26,6 +26,13 @@
 * {
   box-sizing: border-box;
 }
+html,
+body,
+#root {
+  height: 100%;
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+}
 body {
   margin: 0;
 }
@@ -5934,9 +5941,25 @@ textarea {
     font-size: 18px;
   }
   .mobile-show-map .mobile-view-toggle {
-    top: 83px;
+    top: 16px;
+    right: 15px;
+    left: auto;
     bottom: auto;
+    transform: none;
     z-index: 640;
+    padding: 8px 14px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .mobile-show-map .mobile-view-toggle:not(:disabled):active {
+    transform: scale(0.96);
+  }
+  .mobile-show-map .map-city-card {
+    max-width: calc(100% - 155px);
+  }
+  .mobile-show-map .map-top-actions {
+    top: 66px;
+    right: 15px;
   }
   .mobile-show-map .map-story,
   .mobile-show-map .free-people {
@@ -8625,7 +8648,13 @@ progress::-moz-progress-bar {
     top: 66px;
   }
   .mobile-show-map .mobile-view-toggle {
-    top: 105px;
+    top: 16px;
+    right: 15px;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    font-size: 10.5px;
+    padding: 7px 12px;
   }
   .dropped-pin-card {
     bottom: 128px;

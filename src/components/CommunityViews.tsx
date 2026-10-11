@@ -25,6 +25,7 @@ import { useEventsStore, useSocialStore } from '../stores'
 import { hostOf, trustTier } from '../services/community'
 import { Avatar, EmptyState, GenreIcon, Modal } from './ui'
 import { EventFeed } from './EventFeed'
+import { ErrorBoundary } from './ErrorBoundary'
 import { cityTime, formatPrice, isLive } from '../services/time'
 import { EventImage } from './EventImage'
 
@@ -899,28 +900,47 @@ export function ExploreWorkspace({
   events,
   onSelect,
   now,
+  filterKey,
 }: {
   events: PulseEvent[]
   onSelect: (event: PulseEvent) => void
   now: number
+  filterKey?: string
 }) {
   return (
-    <div className="explore-workspace">
-      <div className="workspace-intro">
-        <span className="eyebrow">GO WHERE YOUR INTERESTS TAKE YOU</span>
-        <h2>
-          A little more <em>possibility.</em>
-        </h2>
-        <p>{events.length} moments matching your discovery filters.</p>
+    <ErrorBoundary
+      fallback={
+        <div className="explore-workspace" style={{ padding: '40px 20px', textAlign: 'center' }}>
+          <p style={{ color: 'var(--ink-muted, #888)', fontSize: '14px', marginBottom: '14px' }}>
+            We hit a snag displaying the explore feed.
+          </p>
+          <button
+            type="button"
+            className="secondary-button"
+            onClick={() => window.location.reload()}
+          >
+            Refresh explore view
+          </button>
+        </div>
+      }
+    >
+      <div className="explore-workspace">
+        <div className="workspace-intro">
+          <span className="eyebrow">GO WHERE YOUR INTERESTS TAKE YOU</span>
+          <h2>
+            A little more <em>possibility.</em>
+          </h2>
+          <p>{events.length} moments matching your discovery filters.</p>
+        </div>
+        {events.length ? (
+          <EventFeed events={events} onSelect={onSelect} now={now} filterKey={filterKey} />
+        ) : (
+          <EmptyState
+            title="Nothing here just yet."
+            description="Try a wider location scope or clear a few filters."
+          />
+        )}
       </div>
-      {events.length ? (
-        <EventFeed events={events} onSelect={onSelect} now={now} />
-      ) : (
-        <EmptyState
-          title="Nothing here just yet."
-          description="Try a wider location scope or clear a few filters."
-        />
-      )}
-    </div>
+    </ErrorBoundary>
   )
 }
