@@ -24,3 +24,9 @@ artifacts/
 # System files
 .DS_Store
 Thumbs.db
+
+# Python & Scrapling collector
+collector_env/
+__pycache__/
+*.pyc
+

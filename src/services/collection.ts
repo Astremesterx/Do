@@ -74,6 +74,7 @@ function sourceRecordId(raw: RecordValue, source: string) {
 function inferGenre(raw: RecordValue, source: string): EventGenre {
   if (genreMap[text(raw.category).toLowerCase()]) return genreMap[text(raw.category).toLowerCase()]
   if (['gdg', 'devpost', 'devfolio'].includes(source)) return 'tech'
+  if (source === 'dice') return 'music'
   if (source === 'ra') return 'nightlife'
   if (source === 'athletics') return 'sports'
   const label = `${text(raw.title || raw.name)} ${text(raw.description)}`

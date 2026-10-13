@@ -10,6 +10,8 @@
     "preview": "vite preview --host --configLoader native",
     "lint": "eslint .",
     "collect": "node scripts/collect.mjs",
+    "collect:scrapling": "node scripts/run-scrapling.mjs",
+    "collect:scrapling:watch": "node scripts/run-scrapling.mjs --interval 30",
     "collect:watch": "node scripts/collect.mjs --interval 30",
     "test": "vitest run --configLoader native"
   },
